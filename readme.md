@@ -18,6 +18,7 @@ Therefore I set this repo up with packages that I'll use on my projects.
 * Markdown
 * Migrate
 * Flup
+* PIL
 
 The package comes with a basic Brunch 0.8.1 for my HTML5 framework and a standard virualenv file.
 

@@ -1,4 +1,4 @@
-#!/Users/emmerling/Desktop/flasksql/flask/bin/python
+#!/Users/emmerling/Desktop/EmeraldBox/flask/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'pip==1.2.1','console_scripts','pip'
 __requires__ = 'pip==1.2.1'
 import sys
