@@ -1,8 +1,13 @@
 # Description
 
-EmeraldBox is a boilerplate for developing Flask-based web applications.
-Currently there are no complete all in one package available that meets my requirements for  developing web applications using Flask on a non-GAE platform.
+EmeraldBox is a boilerplate framework for developing Flask-based web applications. 
+It is based on Flask and several basic packages commonly used in developing web applications are included.
+EmeraldBox also provides a structure to Flask applications since currently there are no standardized approach to structuring applications.
+
+# Motivation
+Currently there are no complete all in one package available that includes common packages for developing web applications using Flask on a non-GAE platform.
 Therefore I set this repo up with packages that I'll use on my projects.
+The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations.
 
 # Installed packages
 
@@ -19,8 +24,6 @@ Therefore I set this repo up with packages that I'll use on my projects.
 * Migrate
 * Flup
 * PIL
-
-The package comes with a basic Brunch 0.8.1 for my HTML5 framework and a standard virualenv file.
 
 # Setup
 
@@ -39,6 +42,11 @@ add replace remote
     git commit -am "initial setup"
     git push origin master
 
+EmeraldBox is a localized environment build using virtualenv.
+To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
+
+		python virtualenv.py flask
+
 # Usage
 
 run the server using:
@@ -48,3 +56,14 @@ run the server using:
 db tools for migration available. to see the functions run:
 
 		python db_tools.py -h
+
+the above functions work on activated virtualenv. If you choose not to activate the virtualenv, use flask/bin/python to replace python.
+Example:
+
+		flask/bin/python ignite.py
+
+# Other Notes
+
+Currently no documentation is available and the project is at its early alpha. Use carefully.
+
+For further questions email erich@emfeld.com
