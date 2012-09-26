@@ -43,4 +43,8 @@ add replace remote
 
 run the server using:
 		
-		python run.py
+		python ignite.py
+
+db tools for migration available. to see the functions run:
+
+		python db_tools.py -h
