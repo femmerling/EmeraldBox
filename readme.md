@@ -68,6 +68,12 @@ Run the following:
 
         flask/bin/python db_tools.py -n <Model Name> <field name>:<field type>--<field length (optional)>
 
+Afterwards run:
+
+        flask/bin/python db_tools.py -m
+
+Your database will then be migrated and create the tables in the database.
+
 if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
 
         flask/bin/python db_tools.py -m
@@ -78,4 +84,12 @@ if you have an empty model, the new database will be created. If you are adding 
 
 Currently no documentation is available and the project is at its early alpha. Use carefully.
 
-For further questions email erich@emfeld.com
+for documentation on python see http://www.python.org
+for documentation on Flask see http://flask.pocoo.org
+for documentation on SQLAlchemy see http://www.sqlalchemy.org
+
+If you found any issues please put them in the issue section. I'll respond to it as soon as I have time.
+
+for direct contact email erich@emfeld.com
+
+
