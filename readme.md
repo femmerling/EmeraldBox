@@ -86,9 +86,9 @@ if you have an empty model, the new database will be created. If you are adding 
 
 Currently no documentation is available and the project is at its early alpha. Use carefully.
 
-for documentation on python see http://www.python.org
-for documentation on Flask see http://flask.pocoo.org
-for documentation on SQLAlchemy see http://www.sqlalchemy.org
+for documentation on python see http://www.python.org <br>
+for documentation on Flask see http://flask.pocoo.org <br>
+for documentation on SQLAlchemy see http://www.sqlalchemy.org <br>
 
 If you found any issues please put them in the issue section. I'll respond to it as soon as I have time.
 
