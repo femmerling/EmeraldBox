@@ -62,6 +62,18 @@ Example:
 
 		flask/bin/python ignite.py
 
+Automated database creation tool available.
+
+Run the following:
+
+        flask/bin/python db_tools.py -n <Model Name> <field name>:<field type>--<field length (optional)>
+
+if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
+
+        flask/bin/python db_tools.py -m
+        flask/bin/python db_tools.py -u
+
+
 # Other Notes
 
 Currently no documentation is available and the project is at its early alpha. Use carefully.

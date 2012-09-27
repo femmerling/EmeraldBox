@@ -1,12 +1,25 @@
 #!flask/bin/python
-from migrate.versioning import api
 import imp
-#import logging
 import sys
+import os.path
+
+from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
 from app import db
-import os.path
+
+def help():
+	print '\nThe general usage pattern of the tool is python db_tools.py [options] [extra parameters]\n'
+	print 'The following are the available options:\n'
+	print '	--create or -c 			: Create the database for the first usage. Only use this if you want to create the database for the first time'
+	print '	--migrate or -m 		: Create the migration script for migration process'
+	print '	--upgrade or -u 		: Upgrade the database to the latest migration version'
+	print '	--downgrade or -d 		: Downgrade the database to the previous migration version.'
+	print '					  To downgrade to a specific version use python db_tools.py -d [version number]'
+	print '	--new or -n 			: Create new data model.'
+	print '					  The pattern is db_tools.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
+	print '	--help or -h 			: Display the help file'
+	print ''
 
 def db_create():
 	db.create_all()
@@ -15,7 +28,7 @@ def db_create():
 		api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 		print 'Database creation completed'
 	else:
-		api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, lastversion)
+		api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
 
 def db_migrate():
 	migration = SQLALCHEMY_MIGRATE_REPO + '/versions/%03d_migration.py' % (api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO) + 1)
@@ -43,30 +56,50 @@ def db_downgrade(version=None):
 	print 'Database downgrade completed!'
 	print 'Current database version: ' + str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
 
-def help():
-	print '\nThe general usage pattern of the tool is python db_tools.py [options] [extra parameters]\n'
-	print 'The following are the available options:\n'
-	print '	--create or -c 			: Create the database for the first usage. Only use this if you want to create the database for the first time'
-	print '	--migrate or -m 		: Create the migration script for migration process'
-	print '	--upgrade or -u 		: Upgrade the database to the latest migration version'
-	print '	--downgrade or -d 		: Downgrade the database to the previous migration version.'
-	print '					  To downgrade to a specific version use python db_tools.py -d [version number]'
-	print '	--new or -n 			: Create new data model.'
-	print '					  The pattern is db_tools.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
-	print '	--help or -h 			: Display the help file'
-	print ''
-
 def add_model(model_name, model_components):
 	basedir = os.path.abspath(os.path.dirname(__file__))
 	model_path = os.path.join(basedir, 'app/models.py')
-	#print model_name
-	#print model_components
-	with open(model_path, 'a') as model_file:
-		model_file.write('')
-		model_file.write('#test')
+	model_file = open(model_path, 'a')
+	model_file.write('\n')
+	model_file.write('class ' + model_name + '(db.Model):\n')
+	model_file.write('	id = db.Column(db.BigInteger, primary_key=True)\n')
+	
+	for component in model_components:
+		in_type = component['field_property'][0].lower()
+		if in_type == 'string':
+			data_type = 'String'
+			if len(component['field_property']) < 2:
+				print 'String data type requires length. Please refer to -h.'
+		elif in_type == 'text':
+			data_type = 'Text'
+		elif in_type == 'integer':
+			data_type = 'Integer'
+		elif in_type == 'biginteger':
+			data_type = 'BigInteger'
+		elif in_type == 'float':
+			data_type = 'Float'
+		elif in_type == 'boolean':
+			data_type = 'Boolean'
+		else:
+			print 'Data type ' + component['field_property'][0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.' 
 
-	#	model_file.write('\n# testline')
-	print 'Model test done'
+		if len(component['field_property']) == 2:
+			model_file.write('	' + component['field_property'][0] + ' = db.Column(db.'+ data_type + '('+ component['field_property'][1] +'))\n')
+		else:
+			model_file.write('	' + component['field_property'][0] + ' = db.Column(db.'+ data_type + ')\n')
+	model_file.write('')
+	model_file.close()
+	
+
+	if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
+		db.create_all()
+		api.create(SQLALCHEMY_MIGRATE_REPO,'database repository')
+		print 'Process completed.'
+		print 'New database created!'
+	else:
+		db.create_all()
+		print 'Database is ready for migration. Run python db_tools.py -m to migrate'
+
 
 
 def db_version():
@@ -109,3 +142,7 @@ elif sysinput == '--new' or sysinput == '-n':
 		print 'Not enough parameters are provided. See db_tools.py -h for info'
 else:
 	print 'Command not found. Please use --help for command options'
+
+
+
+# end of file
