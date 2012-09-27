@@ -89,18 +89,15 @@ def add_model(model_name, model_components):
 			model_file.write('	' + component['field_property'][0] + ' = db.Column(db.'+ data_type + ')\n')
 	model_file.write('')
 	model_file.close()
+	print '...........'
 	
-
 	if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
-		db.create_all()
-		api.create(SQLALCHEMY_MIGRATE_REPO,'database repository')
-		print 'Process completed.'
-		print 'New database created!'
+		db_create()
+		db_migrate()
+		print 'Database is ready to deploy. Run python db_tools.py --migrate to complete the process.'
 	else:
 		db.create_all()
-		print 'Database is ready for migration. Run python db_tools.py -m to migrate'
-
-
+		print 'Schema updated. Run python db_tools.py --migrate and python db_tools --upgrade to complete the process.'
 
 def db_version():
 	current_version = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
