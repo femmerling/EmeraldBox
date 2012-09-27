@@ -11,19 +11,21 @@ The tool includes database management tools based on SQLAlchemy and is designed 
 
 # Installed packages
 
+Currently the following packages are included.
 * Flask
 * Flask Mail
 * Flask WTF
-* Flask Login
-* Flask OpenID
 * Flask SQLAlchemy
-* Flask Babel
 * Python MySQL
 * SQLAlchemy Migrate
 * Markdown
 * Migrate
 * Flup
 * PIL
+
+You can add your desired package by running:
+
+    flask/bin/pip install <package name>
 
 # Setup
 
@@ -45,39 +47,39 @@ add replace remote
 EmeraldBox is a localized environment build using virtualenv.
 To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
 
-		python virtualenv.py flask
+	python virtualenv.py flask
 
 # Usage
 
 run the server using:
 		
-		python ignite.py
+	python ignite.py
 
 db tools for migration available. to see the functions run:
 
-		python db_tools.py -h
+	python db_tools.py -h
 
 the above functions work on activated virtualenv. If you choose not to activate the virtualenv, use flask/bin/python to replace python.
 Example:
 
-		flask/bin/python ignite.py
+	flask/bin/python ignite.py
 
 Automated database creation tool available.
 
 Run the following:
 
-        flask/bin/python db_tools.py -n <Model Name> <field name>:<field type>--<field length (optional)>
+    python db_tools.py -n <Model Name> <field name>:<field type>--<field length (optional)>
 
 Afterwards run:
 
-        flask/bin/python db_tools.py -m
+    flask/bin/python db_tools.py -m
 
 Your database will then be migrated and create the tables in the database.
 
 if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
 
-        flask/bin/python db_tools.py -m
-        flask/bin/python db_tools.py -u
+    python db_tools.py -m
+    python db_tools.py -u
 
 
 # Other Notes
