@@ -1,7 +1,8 @@
 # Description
 
-EmeraldBox is a boilerplate framework for developing Flask-based web applications. 
-It is based on Flask and several basic packages commonly used in developing web applications are included.
+EmeraldBox is a boilerplate framework for developing python web applications with database access. 
+The framework is based on Flask, a python microframework based on werkzeug, jinja2 and good intentions.
+Several basic packages commonly used in developing web applications are included.
 EmeraldBox also provides a structure to Flask applications since currently there are no standardized approach to structuring applications.
 
 # Motivation
@@ -55,7 +56,7 @@ run the server using:
 		
 	python ignite.py
 
-db tools for migration available. to see the functions run:
+Framework generators and tools available. to see the functions run:
 
 	python box.py -h
 
