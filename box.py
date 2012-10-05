@@ -10,15 +10,17 @@ from app import db
 
 def help():
 	#this lists the commands used by the db_tools.py
-	print '\nThe general usage pattern of the tool is python db_tools.py [options] [extra parameters]\n'
+	print '\nThe general usage pattern of the tool is python box.py [options] [extra parameters]\n'
 	print 'The following are the available options:\n'
+	print '	--initiate or -i 		: Generates a new controller handler. You should specify a controller name and the name should not be a number.'
+	print '					  The pattern is python box.py -i [controller name]'
 	print '	--create or -c 			: Create the database for the first usage. Only use this if you want to create the database for the first time'
 	print '	--migrate or -m 		: Create the migration script for migration process'
 	print '	--upgrade or -u 		: Upgrade the database to the latest migration version'
 	print '	--downgrade or -d 		: Downgrade the database to the previous migration version.'
-	print '					  To downgrade to a specific version use python db_tools.py -d [version number]'
+	print '					  To downgrade to a specific version use python box.py -d [version number]'
 	print '	--new or -n 			: Create new data model.'
-	print '					  The pattern is db_tools.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
+	print '					  The pattern is box.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
 	print '	--help or -h 			: Display the help file'
 	print ''
 
@@ -119,7 +121,7 @@ def add_model(model_name, model_components):
 			model_file.write('				' + component['field_name'].lower() + ' = self.'+ component['field_name'].lower() + ',\n')
 	model_file.close()
 	print '\n...........\n'
-	print 'Database file is ready to use.\nRun python db_tools.py -c if you want to initialize the database or run python db_tools.py -m if this is a migration.\n'
+	print 'Database file is ready to use.\nRun python box.py -c if you want to initialize the database or run python box.py -m if this is a migration.\n'
 
 	# add the json callback handler in the controller file
 	add_model_controller_route(model_name)
@@ -155,7 +157,20 @@ def add_model_controller_route(model_name):
 	## return the result
 	controller_file.write("\treturn json_result")
 	controller_file.write("")
+	controller_file.close()
 	print '\nController file updated\n'
+
+def add_controller(controller_name):
+	basedir = os.path.abspath(os.path.dirname(__file__))
+	controller_path = os.path.join(basedir, 'app/main.py')
+	controller_file = open(controller_path, 'a')
+	controller_file.write("\n\n@app.route('/"+ controller_name.lower() +"/')\n")
+	controller_file.write("def " + controller_name.lower() +"_control():\n")
+	controller_file.write("\t# add your controller here\n")
+	controller_file.write("\treturn True\n")
+	controller_file.close()
+	print '\nController file generated\n'
+
 
 def db_version():
 	# this is used to get the latest version in the database
@@ -173,6 +188,12 @@ elif sysinput == '--create' or sysinput == '-c':
 		sys.exit()
 elif sysinput == '--migrate' or sysinput == '-m':
 	db_migrate()
+elif sysinput == '--initiate' or sysinput == '-i':
+	if len(sys.argv) > 2 and not sys.argv[2].isdigit():
+		add_controller(sys.argv[2])
+	else:
+		print 'Controller name can not be a number'
+		sys.exit()
 elif sysinput == '--upgrade' or sysinput == '-u':
 	db_upgrade()
 elif sysinput == '--downgrade' or sysinput == '-d':
@@ -201,11 +222,11 @@ elif sysinput == '--new' or sysinput == '-n':
 														}
 				model_components.append(insert_components)
 		else:
-			print '\nNot enough parameters are provided. Model requires field definitions. See db_tools.py -h for info\n'
+			print '\nNot enough parameters are provided. Model requires field definitions. See box.py -h for info\n'
 			sys.exit()
 		add_model(model_name,model_components)
 	else:
-		print '\nNot enough parameters are provided. See db_tools.py -h for info\n'
+		print '\nNot enough parameters are provided. See box.py -h for info\n'
 else:
 	print '\nCommand not found. Please use --help for command options\n'
 
