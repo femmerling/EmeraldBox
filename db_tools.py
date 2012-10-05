@@ -68,8 +68,6 @@ def add_model(model_name, model_components):
 		in_type = component['field_property'][0].lower()
 		if in_type == 'string':
 			data_type = 'String'
-			if len(component['field_property']) < 2:
-				print 'String data type requires length. Please refer to -h.'
 		elif in_type == 'text':
 			data_type = 'Text'
 		elif in_type == 'integer':
@@ -80,6 +78,8 @@ def add_model(model_name, model_components):
 			data_type = 'Float'
 		elif in_type == 'boolean':
 			data_type = 'Boolean'
+		elif in_type == 'binary':
+			data_type = 'Binary'
 		else:
 			print 'Data type ' + component['field_property'][0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.' 
 
@@ -124,16 +124,25 @@ elif sysinput == '--new' or sysinput == '-n':
 	if len(sys.argv) > 2:
 		model_name = sys.argv[2].title()
 		raw_component = sys.argv[3:]
-		model_components = []
-		for component in raw_component:
-			raw_field = component.split(':')
-			field_name = raw_field[0]
-			detail_components = raw_field[1].split('--')
-			insert_components = {
-														'field_name':field_name,
-														'field_property': detail_components
-													}
-			model_components.append(insert_components)
+		valid_data_types = ['string','text','integer','biginteger','float','boolean','binary']
+		if raw_component:
+			model_components = []
+			for component in raw_component:
+				raw_field = component.split(':')
+				field_name = raw_field[0]
+				detail_components = raw_field[1].split('--')
+				if detail_components[0].lower not in valid_data_types:
+					print 'Data type ' + detail_components[0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.'
+				if detail_components[0].lower() == 'string':
+					if len(detail_components) < 2:
+						print 'String data type requires length. Please refer to -h.'
+				insert_components = {
+															'field_name':field_name,
+															'field_property': detail_components
+														}
+				model_components.append(insert_components)
+		else
+			print 'Not enough parameters are provided. Model requires field definitions. See db_tools.py -h for info'
 		add_model(model_name,model_components)
 	else:
 		print 'Not enough parameters are provided. See db_tools.py -h for info'
