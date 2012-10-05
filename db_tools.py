@@ -26,7 +26,7 @@ def db_create():
 	if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
 		api.create(SQLALCHEMY_MIGRATE_REPO,'database repository')
 		api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-		print 'Database creation completed'
+		print '\nDatabase creation completed\n'
 	else:
 		api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
 
@@ -39,7 +39,7 @@ def db_migrate():
 	open(migration, "wt").write(script)
 	a = api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 	print 'New migration saved as ' + migration
-	print 'Current database version: ' + str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO))
+	print 'Current database version: ' + str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)) + '\n'
 
 def db_upgrade():
 	api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
@@ -81,23 +81,29 @@ def add_model(model_name, model_components):
 		elif in_type == 'binary':
 			data_type = 'Binary'
 		else:
-			print 'Data type ' + component['field_property'][0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.' 
+			print 'Data type ' + component['field_property'][0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.'
+			sys.exit()
 
 		if len(component['field_property']) == 2:
-			model_file.write('	' + component['field_property'][0] + ' = db.Column(db.'+ data_type + '('+ component['field_property'][1] +'))\n')
+			model_file.write('	' + component['field_property'][0].lower() + ' = db.Column(db.'+ data_type + '('+ component['field_property'][1] +'))\n')
 		else:
-			model_file.write('	' + component['field_property'][0] + ' = db.Column(db.'+ data_type + ')\n')
+			model_file.write('	' + component['field_property'][0].lower() + ' = db.Column(db.'+ data_type + ')\n')
+
+	model_file.write('	def dto(self):\n')
+	model_file.write('		return dict(\n')
+	mod_counter = 1
+	max_mod_index = len(model_components)
+	for component in model_components:
+		mod_counter = mod_counter + 1
+		if mod_counter != max_mod_index:
+			model_file.write('				' + component['field_property'][0].lower() + ' = self.'+ component['field_property'][0].lower() + '\n')
+		else:
+			model_file.write('				' + component['field_property'][0].lower() + ' = self.'+ component['field_property'][0].lower() + ',\n')
+	model_file.write('			)')
 	model_file.write('')
 	model_file.close()
-	print '...........'
-	
-	if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
-		db_create()
-		db_migrate()
-		print 'Database is ready to deploy. Run python db_tools.py --migrate to complete the process.'
-	else:
-		db.create_all()
-		print 'Schema updated. Run python db_tools.py --migrate and python db_tools --upgrade to complete the process.'
+	print '\n...........\n'
+	print 'Database file is ready to use.\nRun python db_tools.py -c if you want to initialize the database or run python db_tools.py -m if this is a migration.\n'
 
 def db_version():
 	current_version = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
@@ -110,7 +116,8 @@ elif sysinput == '--create' or sysinput == '-c':
 	if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
 		db_create()
 	else:
-		print 'Previous database version found. Please use -m or --migrate option'
+		print '\nPrevious database version found. Please use -m or --migrate option\n'
+		sys.exit()
 elif sysinput == '--migrate' or sysinput == '-m':
 	db_migrate()
 elif sysinput == '--upgrade' or sysinput == '-u':
@@ -131,23 +138,23 @@ elif sysinput == '--new' or sysinput == '-n':
 				raw_field = component.split(':')
 				field_name = raw_field[0]
 				detail_components = raw_field[1].split('--')
-				if detail_components[0].lower not in valid_data_types:
-					print 'Data type ' + detail_components[0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.'
 				if detail_components[0].lower() == 'string':
 					if len(detail_components) < 2:
 						print 'String data type requires length. Please refer to -h.'
+						sys.exit()
 				insert_components = {
 															'field_name':field_name,
 															'field_property': detail_components
 														}
 				model_components.append(insert_components)
-		else
-			print 'Not enough parameters are provided. Model requires field definitions. See db_tools.py -h for info'
+		else:
+			print '\nNot enough parameters are provided. Model requires field definitions. See db_tools.py -h for info\n'
+			sys.exit()
 		add_model(model_name,model_components)
 	else:
-		print 'Not enough parameters are provided. See db_tools.py -h for info'
+		print '\nNot enough parameters are provided. See db_tools.py -h for info\n'
 else:
-	print 'Command not found. Please use --help for command options'
+	print '\nCommand not found. Please use --help for command options\n'
 
 
 
