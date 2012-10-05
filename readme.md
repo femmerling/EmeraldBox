@@ -57,7 +57,7 @@ run the server using:
 
 db tools for migration available. to see the functions run:
 
-	python db_tools.py -h
+	python box.py -h
 
 the above functions work on activated virtualenv. If you choose not to activate the virtualenv, use flask/bin/python to replace python.
 Example:
@@ -68,19 +68,24 @@ Automated database creation tool available.
 
 Run the following:
 
-    python db_tools.py -n <Model Name> <field name>:<field type>--<field length (optional)>
+    python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>
 
 Afterwards run:
 
-    flask/bin/python db_tools.py -m
+    flask/bin/python box.py -m
 
-Your database will then be migrated and create the tables in the database.
+Your database will then be migrated and create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
+Check app/main.py to see the result.
 
 if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
 
-    python db_tools.py -m
-    python db_tools.py -u
+    python box.py -m
+    python box.py -u
 
+You can also initiate your own controller in the controller file.
+Simply run the following
+
+    python box.py -i <controller name>
 
 # Other Notes
 
