@@ -1,4 +1,4 @@
-# do not change or the following lines if you still want to use the db_tools.py auto generator
+# do not change or move the following lines if you still want to use the db_tools.py auto generator
 from app import app
 import models
 
