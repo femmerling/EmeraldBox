@@ -7,7 +7,7 @@ EmeraldBox also provides a structure to Flask applications since currently there
 # Motivation
 Currently there are no complete all in one package available that includes common packages for developing web applications using Flask on a non-GAE platform.
 Therefore I set this repo up with packages that I'll use on my projects.
-The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations.
+The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. I implement a more rails-like approach since it helps developers in many ways.
 
 # Installed packages
 
