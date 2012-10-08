@@ -1,4 +1,6 @@
 *.pyc
 *.swo
+*.js
+*.css
 .DS_Store
 db_repository/
