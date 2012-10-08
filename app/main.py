@@ -18,4 +18,4 @@ from flask import Response
 @app.route('/')
 def index():
 	# define your controller here
-	return 'Hello World'
+	return render_template('index.html')
