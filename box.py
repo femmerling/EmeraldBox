@@ -1,4 +1,4 @@
-#!flask/bin/python
+#! flask/bin/python
 import imp
 import sys
 import os.path
