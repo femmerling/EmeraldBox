@@ -48,45 +48,40 @@ add replace remote
 EmeraldBox is a localized environment build using virtualenv.
 To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
 
-	python virtualenv.py flask
+	python setup.py
 
 # Usage
 
 run the server using:
 		
-	python ignite.py
+	./ignite.py
 
 Framework generators and tools available. to see the functions run:
 
-	python box.py -h
-
-the above functions work on activated virtualenv. If you choose not to activate the virtualenv, use flask/bin/python to replace python.
-Example:
-
-	flask/bin/python ignite.py
+	./box.py -h
 
 Automated database creation tool available.
 
 Run the following:
 
-    python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>
+    ./box.py -n <Model Name> <field name>:<field type>--<field length (optional)>
 
 Afterwards run:
 
-    flask/bin/python box.py -m
+    ./box.py -m
 
 Your database will then be migrated and create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
 Check app/main.py to see the result.
 
 if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
 
-    python box.py -m
-    python box.py -u
+    ./box.py -m
+    ./box.py -u
 
 You can also initiate your own controller in the controller file.
 Simply run the following
 
-    python box.py -i <controller name>
+    ./box.py -i <controller name>
 
 # Other Notes
 
