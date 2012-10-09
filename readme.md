@@ -23,6 +23,7 @@ Currently the following packages are included.
 * Migrate
 * Flup
 * PIL
+* Nosetest
 
 You can add your desired package by running:
 
@@ -82,6 +83,14 @@ You can also initiate your own controller in the controller file.
 Simply run the following
 
     ./box.py -i <controller name>
+
+# Testing
+
+Currently we include Nosetest into the package. You can use it to perform BDD.
+
+To execute Nose, simply run the following
+
+    flask/bin/nosetests
 
 # Other Notes
 
