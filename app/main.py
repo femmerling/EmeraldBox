@@ -1,6 +1,6 @@
 # do not change or move the following lines if you still want to use the db_tools.py auto generator
 from app import app
-from models import User
+import models
 
 # you can freely change the lines below
 from flask import render_template
