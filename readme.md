@@ -5,6 +5,10 @@ The framework is based on Flask, a python microframework based on werkzeug, jinj
 Several basic packages commonly used in developing web applications are included.
 EmeraldBox also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
 
+The structure implemented is mostly based on the following links:
+* http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world bby Miguel Grinberg
+* http://flask.pocoo.org/docs/patterns/packages/ by Armin Ronacher
+
 # Motivation
 Currently there are no complete all in one package available that includes common packages for developing web applications using Flask on a non-GAE platform.
 Therefore this repo is set with the most common packages used in a standard web development project.
