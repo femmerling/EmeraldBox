@@ -1,0 +1,12 @@
+Metadata-Version: 1.0
+Name: migrate
+Version: 0.2.2
+Summary: Database schema migration for SQLAlchemy
+Home-page: http://erosson.com/migrate
+Author: Evan Rosson
+Author-email: evan.rosson@gmail.com
+License: MIT
+Description: 
+        Inspired by Ruby on Rails' migrations, Migrate provides a way to deal with database schema changes in `SQLAlchemy <http://sqlalchemy.org>`_ projects.
+        
+Platform: UNKNOWN

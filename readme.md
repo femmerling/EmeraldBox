@@ -3,12 +3,12 @@
 EmeraldBox is a boilerplate framework for developing python web applications with database access. 
 The framework is based on Flask, a python microframework based on werkzeug, jinja2 and good intentions.
 Several basic packages commonly used in developing web applications are included.
-EmeraldBox also provides a structure to Flask applications since currently there are no standardized approach to structuring applications.
+EmeraldBox also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
 
 # Motivation
 Currently there are no complete all in one package available that includes common packages for developing web applications using Flask on a non-GAE platform.
-Therefore I set this repo up with packages that I'll use on my projects.
-The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. I implement a more rails-like approach since it helps developers in many ways.
+Therefore this repo is set with the most common packages used in a standard web development project.
+The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. A more rails-like approach is used since it helps developers in many ways.
 
 # Installed packages
 
@@ -27,7 +27,7 @@ Currently the following packages are included.
 
 You can add your desired package by running:
 
-    flask/bin/pip install <package name>
+    box/bin/pip install <package name>
 
 # Setup
 
@@ -90,7 +90,7 @@ Currently we include Nosetest into the package. You can use it to perform BDD.
 
 To execute Nose, simply run the following
 
-    flask/bin/nosetests
+    box/bin/nosetests
 
 # Other Notes
 

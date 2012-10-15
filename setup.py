@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 virtualenv_path = os.path.join(basedir, 'virtualenv.py')
 box_path = os.path.join(basedir, 'box.py')
 ignite_path = os.path.join(basedir, 'ignite.py')
-call(['python', virtualenv_path, 'flask'])
+call(['python', virtualenv_path, 'box'])
 call(['chmod','a+x', box_path])
 call(['chmod','a+x', ignite_path])
 print '\nYour EmeraldBox instalation is ready to use.'

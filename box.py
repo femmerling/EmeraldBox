@@ -1,4 +1,4 @@
-#! flask/bin/python
+#! box/bin/python
 import imp
 import sys
 import os.path
