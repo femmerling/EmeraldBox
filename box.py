@@ -1,4 +1,4 @@
-#! box/bin/python
+#! flask/bin/python
 import imp
 import sys
 import os.path
@@ -142,11 +142,12 @@ def add_model(model_name, model_components):
 	mod_counter = 1
 	max_mod_index = len(model_components)
 	for component in model_components:
-		mod_counter = mod_counter + 1
+		
 		if mod_counter != max_mod_index:
-			model_file.write('				' + component['field_name'].lower() + ' = self.'+ component['field_name'].lower() + ')\n')
-		else:
 			model_file.write('				' + component['field_name'].lower() + ' = self.'+ component['field_name'].lower() + ',\n')
+		else:
+			model_file.write('				' + component['field_name'].lower() + ' = self.'+ component['field_name'].lower() + ')\n')
+		mod_counter = mod_counter + 1
 	model_file.close()
 	print '\n...........\n'
 	print 'Database file is ready to use.\nRun python box.py -c if you want to initialize the database or run python box.py -m if this is a migration.\n'

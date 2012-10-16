@@ -17,21 +17,18 @@ The tool includes database management tools based on SQLAlchemy and is designed 
 # Installed packages
 
 Currently the following packages are included.
-* Flask
-* Flask Mail
-* Flask WTF
-* Flask SQLAlchemy
-* Python MySQL
-* SQLAlchemy Migrate
-* Markdown
-* Migrate
-* Flup
-* PIL
-* Nosetest
+* Flask 0.9
+* Flask Mail 0.7.3
+* Flask SQLAlchemy 0.16
+* MySQL - Python 1.2.3
+* SQLAlchemy 0.7.8
+* SQLAlchemy Migrate 0.7.2
+* PIL 1.1.7
+* Nose 1.2.1
 
 You can add your desired package by running:
 
-    box/bin/pip install <package name>
+    flask/bin/pip install <package name>
 
 # Setup
 
@@ -94,7 +91,7 @@ Currently we include Nosetest into the package. You can use it to perform BDD.
 
 To execute Nose, simply run the following
 
-    box/bin/nosetests
+    flask/bin/nosetests
 
 # Other Notes
 
