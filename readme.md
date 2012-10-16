@@ -53,17 +53,17 @@ add replace remote
 EmeraldBox is a localized environment build using virtualenv.
 To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
 
-	python setup.py
+    python setup.py
 
 # Usage
 
 run the server using:
-		
-	./ignite.py
+        
+    ./ignite.py
 
 Framework generators and tools available. to see the functions run:
 
-	./box.py -h
+    ./box.py -h
 
 Automated database creation tool available.
 
@@ -107,5 +107,4 @@ for documentation on SQLAlchemy see http://www.sqlalchemy.org <br>
 If you found any issues please put them in the issue section. I'll respond to it as soon as I have time.
 
 for direct contact email erich@emfeld.com
-
 

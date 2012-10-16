@@ -21,6 +21,7 @@ def help():
 	print '					  To downgrade to a specific version use python box.py -d [version number]'
 	print '	--new or -n 			: Create new data model.'
 	print '					  The pattern is box.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
+	print '					  For more documentation please see http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic'
 	print '	--help or -h 			: Display the help file'
 	print ''
 
@@ -81,20 +82,47 @@ def add_model(model_name, model_components):
 
 	for component in model_components:
 		in_type = component['field_property'][0].lower()
-		if in_type == 'string':
+		### the database filed type is based on http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic
+		if in_type == 'biginteger':
+			data_type = 'BigInteger'
+		elif in_type == 'boolean':
+			data_type = 'Boolean'
+		elif in_type == 'date':
+			data_type = 'Date'
+		elif in_type == 'datetime':
+			data_type = 'DateTime'
+		elif in_type == 'enum':
+			data_type = 'Enum'
+		elif in_type == 'float':
+			data_type = 'Float'
+		elif in_type == 'integer':
+			data_type = 'Integer'
+		elif in_type == 'interval':
+			data_type = 'Interval'
+		elif in_type == 'largebinary':
+			data_type = 'LargeBinary'
+		elif in_type == 'numeric':
+			data_type = 'Numeric'
+		elif in_type == 'pickletype':
+			data_type = 'PickleType'
+		elif in_type == 'schematype':
+			data_type = 'SchemaType'
+		elif in_type == 'smallinteger' or in_type == 'smallint':
+			data_type = 'SmallInteger'
+		elif in_type == 'string':
 			data_type = 'String'
 		elif in_type == 'text':
 			data_type = 'Text'
-		elif in_type == 'integer':
-			data_type = 'Integer'
-		elif in_type == 'biginteger':
-			data_type = 'BigInteger'
-		elif in_type == 'float':
-			data_type = 'Float'
-		elif in_type == 'boolean':
-			data_type = 'Boolean'
+		elif in_type == 'time':
+			data_type = 'Time'
+		elif in_type == 'unicode':
+			data_type = 'Unicode'
+		elif in_type == 'unicodetext':
+			data_type = 'UnicodeText'	
 		elif in_type == 'binary':
 			data_type = 'Binary'
+		elif in_type =='blob':
+			data_type = 'BLOB'
 		else:
 	### if the data type did not match any of the existing data types, display error message and quit the program
 			print 'Data type ' + component['field_property'][0] + ' not found. Please refer to SQLAlchemy documentation for valid data types.'
