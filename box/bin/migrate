@@ -1,4 +1,0 @@
-#!/Users/emmerling/Desktop/EmeraldBox/box/bin/python
-from migrate.versioning.shell import main
-
-main()
