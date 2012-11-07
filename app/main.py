@@ -1,4 +1,4 @@
-# do not change or move the following lines if you still want to use the db_tools.py auto generator
+# do not change or move the following lines if you still want to use the box.py auto generator
 from app import app
 import models
 
@@ -11,7 +11,7 @@ from flask import redirect
 from flask import request
 from flask import abort
 from flask import Response
-
+import logging
 # define global variables here
 
 # home root controller
