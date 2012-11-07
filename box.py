@@ -1,12 +1,12 @@
-#! flask/bin/python
+#! box/bin/python
 import imp
 import sys
 import os.path
 
 from migrate.versioning import api
+from app import db
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
-from app import db
 
 
 def help():
@@ -20,8 +20,9 @@ def help():
     print '	--upgrade or -u 		: Upgrade the database to the latest migration version'
     print '	--downgrade or -d 		: Downgrade the database to the previous migration version.'
     print '					  To downgrade to a specific version use python box.py -d [version number]'
+    print '\t--version or -v\t\t\t: Check current database version.'
     print '	--new or -n 			: Create new data model.'
-    print '					  The pattern is box.py -n [model name] [<field name>:<field type>,<field length (if applicable. otherwise, default will be used)>]'
+    print '					  The pattern is box.py -n [model name] [<field name>:<field type>--<field length (if applicable. otherwise, default will be used)>]'
     print '					  For more documentation please see http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic'
     print '	--help or -h 			: Display the help file'
     print ''
@@ -81,7 +82,7 @@ def add_model(model_name, model_components):
     # write the class definition
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('	id = db.Column(db.BigInteger, primary_key=True)\n')
+    model_file.write('	id = db.Column(db.Integer, primary_key=True)\n')
 
     ## add the model fields
     ### first check for the data types and standardize it
@@ -228,8 +229,10 @@ def add_controller(controller_name):
 def db_version():
     # this is used to get the latest version in the database
     current_version = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    print 'The current database version is ' + current_version
+    print 'The current database version is ' + str(current_version)
 
+def testme():
+    return True
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
     if sysinput == '--help' or sysinput == '-h':
@@ -250,6 +253,10 @@ if len(sys.argv) > 1:
             sys.exit()
     elif sysinput == '--upgrade' or sysinput == '-u':
         db_upgrade()
+    elif sysinput == '--version' or sysinput == '-v':
+        db_version()
+    elif sysinput == '-t':
+        testme()
     elif sysinput == '--downgrade' or sysinput == '-d':
         if len(sys.argv) > 2 and sys.argv[2].isdigit():
             db_downgrade(sys.argv[2])
@@ -268,8 +275,7 @@ if len(sys.argv) > 1:
                     detail_components = raw_field[1].split('--')
                     if detail_components[0].lower() == 'string':
                         if len(detail_components) < 2:
-                            print 'String data type requires length. Please refer to -h.'
-                            sys.exit()
+                            detail_components.append('50')
                     insert_components = {
                         'field_name': field_name,
                         'field_property': detail_components

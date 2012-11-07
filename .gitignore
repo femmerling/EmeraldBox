@@ -5,3 +5,5 @@
 setupy.py
 .DS_Store
 db_repository/
+box/
+db/
