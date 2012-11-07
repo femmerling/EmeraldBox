@@ -36,6 +36,11 @@ clone repository
 
     git clone https://github.com/femmerling/EmeraldBox.git <project_name>
 
+EmeraldBox is a localized environment build using virtualenv.
+To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
+
+    python setup.py
+
 If you want to control your project using git do the followings:
 
 change to directory of <project_name>
@@ -48,11 +53,6 @@ add replace remote
     git remote add origin <new_remote like git@github.com:your_name/project_name.git>
     git commit -am "initial setup"
     git push origin master
-
-EmeraldBox is a localized environment build using virtualenv.
-To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
-
-    python setup.py
 
 # Usage
 
