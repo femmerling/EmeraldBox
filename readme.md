@@ -14,21 +14,19 @@ Currently there are no complete all in one package available that includes commo
 Therefore this repo is set with the most common packages used in a standard web development project.
 The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. A more rails-like approach is used since it helps developers in many ways.
 
-# Installed packages
+# Installer package
 
-Currently the following packages are included.
-* Flask 0.9
-* Flask Mail 0.7.3
-* Flask SQLAlchemy 0.16
-* MySQL - Python 1.2.3
-* SQLAlchemy 0.7.8
-* SQLAlchemy Migrate 0.7.2
-* PIL 1.1.7
-* Nose 1.2.1
+EmeraldBox setup will install the following packages for you:
+* Flask
+* Flask-Mail
+* Flask-SQLAlchemy
+* SQLAlchemy
+* SQLAlchemy-Migrate
+* Nose
 
 You can add your desired package by running:
 
-    flask/bin/pip install <package name>
+    box/bin/pip install <package name>
 
 # Setup
 
@@ -40,6 +38,8 @@ EmeraldBox is a localized environment build using virtualenv.
 To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
 
     python setup.py
+
+The setup will then automatically download packages and adjusted your settings.
 
 If you want to control your project using git do the followings:
 
@@ -95,7 +95,7 @@ Currently we include Nosetest into the package. You can use it to perform BDD.
 
 To execute Nose, simply run the following
 
-    flask/bin/nosetests
+    box/bin/nosetests
 
 # Other Notes
 
