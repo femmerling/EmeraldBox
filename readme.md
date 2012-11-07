@@ -36,6 +36,8 @@ clone repository
 
     git clone https://github.com/femmerling/EmeraldBox.git <project_name>
 
+If you want to control your project using git do the followings:
+
 change to directory of <project_name>
 
     cd <project_name>
@@ -84,6 +86,8 @@ You can also initiate your own controller in the controller file.
 Simply run the following
 
     ./box.py -i <controller name>
+
+this controller initiation will also automatically generate a view file in your app/templates/ folder with your controller name as the file name.
 
 # Testing
 
