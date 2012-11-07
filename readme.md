@@ -6,7 +6,7 @@ Several basic packages commonly used in developing web applications are included
 EmeraldBox also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
 
 The structure implemented is mostly based on the following links:
-* http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world bby Miguel Grinberg
+* http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world by Miguel Grinberg
 * http://flask.pocoo.org/docs/patterns/packages/ by Armin Ronacher
 
 # Motivation
