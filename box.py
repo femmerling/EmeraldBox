@@ -190,7 +190,10 @@ def add_model_controller_route(model_name):
     ## add the model fetch and JSON generation
     controller_file.write("\t# this is the controller for JSON data access\n")
     controller_file.write("\t" + model_controller_name + "_list = " + model_name.title() + ".query.all()\n")
-    controller_file.write("\tjson_result = json.dumps([" + model_controller_name + ".dto() for " + model_controller_name + " in " + model_controller_name + "_list])\n")
+    controller_file.write("\tif " + model_controller_name + "_list:\n")
+    controller_file.write("\t\tjson_result = json.dumps([" + model_controller_name + ".dto() for " + model_controller_name + " in " + model_controller_name + "_list])\n")
+    controller_file.write("\telse:\n")
+    controller_file.write("\t\tjson_result = None")
     ## return the result
     controller_file.write("\treturn json_result")
     controller_file.write("")
