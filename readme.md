@@ -55,13 +55,15 @@ add replace remote
     git commit -am "initial setup"
     git push origin master
 
-# Usage
+# Server and Deployment
 
-EmeraldBox comes with the famous Tornado Web Server. You app is ready to run since instalation. Run the server using:
+As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the famous Tornado Web Server. You app is ready to be deployed and run since instalation. Run the server using:
         
     ./ignite.py
 
-The app will run at port 2901, a special number for me :)
+The app will run at port 5000. You can change the port in the ignite.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
+
+# Usage
 
 Framework generators and tools available. to see the functions run:
 
