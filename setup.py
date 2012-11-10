@@ -34,6 +34,9 @@ print '##################################################\n'
 print 'installing Nosetest\n'
 call(['box/bin/pip','install','nose'])
 print 'Nosetest installed\n'
+print 'installing Tornado Web Server\n'
+call(['box/bin/pip','install','tornado'])
+print 'Tornado Web Server installed\n'
 print '\nAll basic packages have been installed!\n'
 print '\nYour basic EmeraldBox instalation is ready to use.'
 print '\nRun ./box.py -h for full details on how to use the box tools or run ./ignite.py to run the server.\n'
