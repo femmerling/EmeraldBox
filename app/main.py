@@ -1,5 +1,5 @@
 # do not change or move the following lines if you still want to use the box.py auto generator
-from app import app
+from app import app, db
 import models
 
 # you can freely change the lines below

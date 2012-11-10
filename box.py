@@ -161,6 +161,7 @@ def add_model(model_name, model_components):
 
     # add the json callback handler in the controller file
     add_model_controller_route(model_name)
+    add_model_create_controller_and_template(model_name,model_components)
 
 
 def add_model_controller_route(model_name):
@@ -185,20 +186,47 @@ def add_model_controller_route(model_name):
         controller_file.write(lines)
     ## write the handler definition
     controller_file.write('\n\n')
+    controller_file.write("########### " + model_name.lower() + " data model controllers area ###########\n\n")
     controller_file.write("@app.route('/data/" + model_name.lower() + "/')\n")
     controller_file.write("def data_" + model_controller_name + "():\n")
     ## add the model fetch and JSON generation
     controller_file.write("\t# this is the controller for JSON data access\n")
-    controller_file.write("\t" + model_controller_name + "_list = " + model_name.title() + ".query.all()\n")
+    controller_file.write("\t" + model_controller_name + "_list = " + model_name.title() + ".query.all()\n\n")
     controller_file.write("\tif " + model_controller_name + "_list:\n")
     controller_file.write("\t\tjson_result = json.dumps([" + model_controller_name + ".dto() for " + model_controller_name + " in " + model_controller_name + "_list])\n")
     controller_file.write("\telse:\n")
-    controller_file.write("\t\tjson_result = None")
+    controller_file.write("\t\tjson_result = None\n")
     ## return the result
-    controller_file.write("\treturn json_result")
-    controller_file.write("")
+    controller_file.write("\n\treturn json_result\n\n")
     controller_file.close()
     print '\nController file updated\n'
+
+def add_model_create_controller_and_template(model_name,model_components):
+    model_name = model_name.lower()
+    mod_counter = 1
+    max_mod_index = len(model_components)
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    controller_path = os.path.join(basedir, 'app/main.py')
+    template_path = os.path.join(basedir,'app/templates/'+ model_name +'.html')
+    controller_file = open(controller_path, 'a')
+    controller_file.write("@app.route('/" + model_name + "/create/')\n")
+    controller_file.write("def " + model_name + "_create_data_controller():\n")
+    controller_file.write("\t# this is the " + model_name + " data create handler\n")
+    for component  in model_components:
+        controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() +"')\n")
+    controller_file.write("\n\tnew_" + model_name + " = " + model_name.title() + "(\n")
+    for component in model_components:
+        if mod_counter != max_mod_index:
+            controller_file.write("\t\t\t\t\t\t\t\t\t" + component['field_name'].lower() + ' = ' + component['field_name'].lower() + ',\n')
+        else:
+            controller_file.write("\t\t\t\t\t\t\t\t\t" + component['field_name'].lower() + ' = ' + component['field_name'].lower() + '\n')
+        mod_counter = mod_counter + 1
+    controller_file.write("\t\t\t\t\t\t\t\t)\n")
+    controller_file.write("\n\tdb.session.add(new_"+ model_name +")\n")
+    controller_file.write("\tdb.session.commit()\n")
+    #controller_file.write("\tnew_" + model_name + ".put()\n")
+    controller_file.write("\n\treturn 'data input successful'\n")
+    return True
 
 
 def add_controller(controller_name):
