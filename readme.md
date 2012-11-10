@@ -23,6 +23,7 @@ EmeraldBox setup will install the following packages for you:
 * SQLAlchemy
 * SQLAlchemy-Migrate
 * Nose
+* Tornado Web Server
 
 You can add your desired package by running:
 
@@ -56,9 +57,11 @@ add replace remote
 
 # Usage
 
-run the server using:
+EmeraldBox comes with the famous Tornado Web Server. You app is ready to run since instalation. Run the server using:
         
     ./ignite.py
+
+The app will run at port 2901, a special number for me :)
 
 Framework generators and tools available. to see the functions run:
 
