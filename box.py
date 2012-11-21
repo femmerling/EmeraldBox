@@ -14,16 +14,16 @@ def help():
     print '\nThe general usage pattern of the tool is python box.py [options] [extra parameters]\n'
     print 'The following are the available options:\n'
     print ' --initiate or -i        : Generates a new controller handler. You should specify a controller name and the name should not be a number.'
-    print '                   The pattern is python box.py -i [controller name]'
+    print '\t\t\t   The pattern is python box.py -i [controller name]'
     print ' --create or -c          : Create the database for the first usage. Only use this if you want to create the database for the first time'
     print ' --migrate or -m         : Create the migration script for migration process'
     print ' --upgrade or -u         : Upgrade the database to the latest migration version'
     print ' --downgrade or -d       : Downgrade the database to the previous migration version.'
-    print '                   To downgrade to a specific version use python box.py -d [version number]'
-    print '\t--version or -v\t\t\t: Check current database version.'
+    print '\t\t\t   To downgrade to a specific version use python box.py -d [version number]'
+    print '--version or -v\t\t : Check current database version.'
     print ' --new or -n             : Create new data model.'
-    print '                   The pattern is box.py -n [model name] [<field name>:<field type>--<field length (if applicable. otherwise, default will be used)>]'
-    print '                   For more documentation please see http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic'
+    print '\t\t\t   The pattern is box.py -n [model name] [<field name>:<field type>--<field length (if applicable. otherwise, default will be used)>]'
+    print '\t\t\t   For more documentation please see http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic'
     print ' --help or -h            : Display the help file'
     print ''
 
@@ -147,6 +147,7 @@ def add_model(model_name, model_components):
     model_file.write('\t\treturn dict(\n')
     ### add the json component for all fields
     mod_counter = 1
+    model_file.write('              id = self.id,\n')
     max_mod_index = len(model_components)
     for component in model_components:
 
@@ -160,11 +161,13 @@ def add_model(model_name, model_components):
     print 'Database file is ready to use.\nRun python box.py -c if you want to initialize the database or run python box.py -m if this is a migration.\n'
 
     # add the json callback handler in the controller file
-    add_model_controller_route(model_name)
-    add_model_create_controller_and_template(model_name,model_components)
+    add_model_json_controller_route(model_name)
+    add_model_view_controller_and_template(model_name,model_components)
+    add_model_create_controller(model_name,model_components)
+    
 
 
-def add_model_controller_route(model_name):
+def add_model_json_controller_route(model_name):
     # this is used to generate json callback handler for a specific model in the controller file
     print "Generating model controller for JSON data access"
     model_controller_name = model_name.lower()
@@ -201,7 +204,7 @@ def add_model_controller_route(model_name):
     controller_file.close()
     print '\nController file updated\n'
 
-def add_model_create_controller_and_template(model_name,model_components):
+def add_model_view_controller_and_template(model_name,model_components):
     model_name = model_name.lower()
     mod_counter = 1
     max_mod_index = len(model_components)
@@ -209,7 +212,60 @@ def add_model_create_controller_and_template(model_name,model_components):
     controller_path = os.path.join(basedir, 'app/main.py')
     template_path = os.path.join(basedir,'app/templates/'+ model_name +'.html')
     controller_file = open(controller_path, 'a')
-    controller_file.write("@app.route('/" + model_name + "/create/')\n")
+    controller_file.write("@app.route('/"+model_name+"/')\n")
+    controller_file.write("def " + model_name + "_view_controller():\n")
+    controller_file.write("\t#this is the controller to view all data in the model\n")
+    controller_file.write("\t" + model_name + "_list = "+ model_name.title() + ".query.all()\n\n")
+    controller_file.write("\tif " + model_name +"_list:\n")
+    controller_file.write("\t\t" + model_name + "_entries = [" + model_name + ".dto() for " + model_name + " in " + model_name + "_list]\n")
+    controller_file.write("\telse:\n")
+    controller_file.write("\t\t" + model_name + "_entries = None\n\n")
+    controller_file.write("\treturn render_template('" + model_name + ".html')\n\n")
+    template_file = open(template_path, 'w')
+    template_file.write("<!doctype html>\n")
+    template_file.write("<html>")
+    template_file.write("\t<head><title>" + model_name.title() + " Entries</title></head>\n")
+    template_file.write("\t<body>\n")
+    template_file.write("\t\t<h1>List of " + model_name.title() + " Entries.</h1>\n")
+    template_file.write("\t\t<table>\n")
+    template_file.write("\t\t\t<thead>\n")
+    template_file.write("\t\t\t\t<tr>\n")
+    template_file.write("\t\t\t\t\t<td><b>ID</td>\n")
+    for component in model_components:
+        template_file.write("\t\t\t\t\t<td><b>"+ component['field_name'].title() +"</b></td>\n")
+    template_file.write("\t\t\t\t\t<td><b> </td>\n")
+    template_file.write("\t\t\t\t\t<td><b> </td>\n")
+    template_file.write("\t\t\t\t</tr>\n")
+    template_file.write("\t\t\t</thead>\n")
+    template_file.write("\t\t\t{% if entries %}\n")
+    template_file.write("\t\t\t<tbody>\n")
+    template_file.write("\t\t\t{% for entry in " + model_name + "_entries %}\n")
+    template_file.write("\t\t\t\t<tr>\n")
+    template_file.write("\t\t\t\t\t<td>{{ entry.id }}</td>\n")
+    for component in model_components:
+        template_file.write("\t\t\t\t\t<td>{{ entry."+ component['field_name'] +" }}</td>\n")
+    template_file.write('\t\t\t\t\t<td><a href="/'+ model_name +'/edit/{{ entry.id }}">Edit</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/'+ model_name +'/delete/{{ entry.id }}">Delete</a></td>\n')
+    template_file.write("\t\t\t\t</tr>\n")
+    template_file.write("\t\t\t{% endfor %}\n")
+    template_file.write("\t\t\t</tbody>\n")
+    template_file.write("\t\t</table>\n")
+    template_file.write("\t\t\t{% else %}\n")
+    template_file.write("\t\t\tYou currently have no entries\n")
+    template_file.write("\t\t\t{% endif %}\n")
+    template_file.write('\t\t\t<b><a href="/'+ model_name +'/add">Add new entry</a></b>\n')
+    template_file.write("\t</body>\n")
+    template_file.write("</html>")
+
+
+def add_model_create_controller(model_name,model_components):
+    model_name = model_name.lower()
+    mod_counter = 1
+    max_mod_index = len(model_components)
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    controller_path = os.path.join(basedir, 'app/main.py')
+    controller_file = open(controller_path, 'a')
+    controller_file.write("@app.route('/" + model_name + "/create/,methods=['POST','GET']')\n")
     controller_file.write("def " + model_name + "_create_data_controller():\n")
     controller_file.write("\t# this is the " + model_name + " data create handler\n")
     for component  in model_components:
