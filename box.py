@@ -165,6 +165,9 @@ def add_model(model_name, model_components):
     add_model_view_controller_and_template(model_name,model_components)
     add_model_add_controller_template(model_name,model_components)
     add_model_create_controller(model_name,model_components)
+    add_model_edit_controller_template(model_name,model_components)
+    print '\nIf this is your first database and you wish to generate it, please run ./box.py -c and then run ./box.py -m afterwards.'
+    print '\nIf this is not your first database and you wish to migrate to a new schema, please run ./box.py -m.'
     
 def add_model_json_controller_route(model_name):
     # this is used to generate json callback handler for a specific model in the controller file
@@ -201,11 +204,10 @@ def add_model_json_controller_route(model_name):
     ## return the result
     controller_file.write("\n\treturn json_result\n\n")
     controller_file.close()
-    print '\nJSON data controller added\n'
+    print 'JSON data controller added'
 
 def add_model_view_controller_and_template(model_name,model_components):
     model_name = model_name.lower()
-    max_mod_index = len(model_components)
     basedir = os.path.abspath(os.path.dirname(__file__))
     controller_path = os.path.join(basedir, 'app/main.py')
     template_path = os.path.join(basedir,'app/templates/'+ model_name +'.html')
@@ -254,11 +256,10 @@ def add_model_view_controller_and_template(model_name,model_components):
     template_file.write('\t\t\t<b><a href="/'+ model_name +'/add">Add new entry</a></b>\n')
     template_file.write("\t</body>\n")
     template_file.write("</html>")
-    print '\nEntries view controller added\n'
+    print 'Entries view controller added'
 
 def add_model_add_controller_template(model_name,model_components):
     model_name = model_name.lower()
-    max_mod_index = len(model_components)
     basedir = os.path.abspath(os.path.dirname(__file__))
     controller_path = os.path.join(basedir, 'app/main.py')
     template_path = os.path.join(basedir,'app/templates/'+ model_name +'_add.html')
@@ -288,7 +289,53 @@ def add_model_add_controller_template(model_name,model_components):
     template_file.write("\t\t</form>\n")
     template_file.write("\t</body>\n")
     template_file.write("</html>")
-    print '\nEntries add form controller added\n'
+    print 'Entries add form controller added'
+
+def add_model_edit_controller_template(model_name,model_components):
+    model_name = model_name.lower()
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    controller_path = os.path.join(basedir, 'app/main.py')
+    template_path = os.path.join(basedir,'app/templates/'+ model_name +'_edit.html')
+    controller_file = open(controller_path, 'a')
+    controller_file.write("@app.route('/"+model_name+"/edit/<id>')\n")
+    controller_file.write("def " + model_name + "_edit_controller(id):\n")
+    controller_file.write("\t#this is the controller to edit model entries\n")
+    controller_file.write("\t"+ model_name +"_item = " + model_name.title() +".query.filter("+model_name.title()+".id == id).first()\n")
+    controller_file.write("\treturn render_template('"+model_name+"_edit.html', "+ model_name +"_item = "+ model_name +"_item)\n\n")
+    template_file = open(template_path, 'w')
+    template_file.write("<!doctype html>\n")
+    template_file.write("<html>")
+    template_file.write("\t<head><title>Edit " + model_name.title() + " Entries</title></head>\n")
+    template_file.write("\t<body>\n")
+    template_file.write("\t\t<h1>Edit " + model_name.title() + " Entries.</h1>\n")
+    template_file.write("\t\t<form name=\""+model_name+"_add\" method=\"post\" action=\"/"+model_name+"/update/{{ "+ model_name +"_item.id }}\">\n")
+    template_file.write("\t\t<table>\n")
+    for component in model_components:
+        template_file.write("\t\t\t\t<tr>\n")
+        template_file.write("\t\t\t\t\t<td>"+ component['field_name'].title() +":</td>\n")
+        template_file.write("\t\t\t\t\t<td><input type=\"text\" name=\""+component['field_name'].lower()+"\" value=\"{{ "+ model_name +"_item."+component['field_name'].lower()+" }}\"/></td>\n")
+        template_file.write("\t\t\t\t</tr>\n")
+    template_file.write("\t\t\t\t<tr>\n")
+    template_file.write("\t\t\t\t\t<td><input type=\"submit\" name=\"submit\" value=\"Edit Entry\"/></td>\n")
+    template_file.write("\t\t\t\t\t<td> </td>\n")
+    template_file.write("\t\t\t\t</tr>\n")
+    template_file.write("\t\t</table>\n")
+    template_file.write("\t\t</form>\n")
+    template_file.write("\t</body>\n")
+    template_file.write("</html>")
+    controller_file = open(controller_path, 'a')
+    controller_file.write("@app.route('/" + model_name + "/update/<id>',methods=['POST','GET'])\n")
+    controller_file.write("def " + model_name + "_update_data_controller(id):\n")
+    controller_file.write("\t# this is the " + model_name + " data update handler\n")
+    for component  in model_components:
+        controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() +"')\n")
+    controller_file.write("\t"+ model_name +"_item = " + model_name.title() +".query.filter("+model_name.title()+".id == id).first()\n")
+    for component in model_components:
+        controller_file.write("\t"+model_name+"_item." +component['field_name'].lower()+" = "+component['field_name'].lower()+"\n")
+    controller_file.write("\n\tdb.session.add("+ model_name +"_item)\n")
+    controller_file.write("\tdb.session.commit()\n")
+    controller_file.write("\n\treturn 'data update successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
+    print 'Entries edit and update form controller added'
 
 
 def add_model_create_controller(model_name,model_components):
@@ -314,8 +361,8 @@ def add_model_create_controller(model_name,model_components):
     controller_file.write("\n\tdb.session.add(new_"+ model_name +")\n")
     controller_file.write("\tdb.session.commit()\n")
     #controller_file.write("\tnew_" + model_name + ".put()\n")
-    controller_file.write("\n\treturn 'data input successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n")
-    print '\nEntries creation controller added\n'
+    controller_file.write("\n\treturn 'data input successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
+    print 'Entries creation controller added'
 
 
 def add_controller(controller_name):
