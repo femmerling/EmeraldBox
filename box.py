@@ -166,6 +166,7 @@ def add_model(model_name, model_components):
     add_model_add_controller_template(model_name,model_components)
     add_model_create_controller(model_name,model_components)
     add_model_edit_controller_template(model_name,model_components)
+    add_model_delete_controller(model_name,model_components)
     print '\nIf this is your first database and you wish to generate it, please run ./box.py -c and then run ./box.py -m afterwards.'
     print '\nIf this is not your first database and you wish to migrate to a new schema, please run ./box.py -m.'
     
@@ -360,10 +361,23 @@ def add_model_create_controller(model_name,model_components):
     controller_file.write("\t\t\t\t\t\t\t\t)\n")
     controller_file.write("\n\tdb.session.add(new_"+ model_name +")\n")
     controller_file.write("\tdb.session.commit()\n")
-    #controller_file.write("\tnew_" + model_name + ".put()\n")
     controller_file.write("\n\treturn 'data input successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
     print 'Entries creation controller added'
 
+def add_model_delete_controller(model_name,model_components):
+    model_name = model_name.lower()
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    controller_path = os.path.join(basedir, 'app/main.py')
+    template_path = os.path.join(basedir,'app/templates/'+ model_name +'_add.html')
+    controller_file = open(controller_path, 'a')
+    controller_file.write("@app.route('/"+model_name+"/delete/<id>')\n")
+    controller_file.write("def " + model_name + "_delete_controller(id):\n")
+    controller_file.write("\t#this is the controller to delete model entries\n")
+    controller_file.write("\t"+ model_name +"_item = " + model_name.title() +".query.filter("+model_name.title()+".id == id).first()\n")
+    controller_file.write("\n\tdb.session.delete("+ model_name +"_item)\n")
+    controller_file.write("\tdb.session.commit()\n")
+    controller_file.write("\n\treturn 'data deletion successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
+    print 'Entries deletion controller added'
 
 def add_controller(controller_name):
     basedir = os.path.abspath(os.path.dirname(__file__))
