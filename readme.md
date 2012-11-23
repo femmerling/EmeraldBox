@@ -75,9 +75,16 @@ Run the following:
 
     ./box.py -n <Model Name> <field name>:<field type>--<field length (optional)>
 
-Afterwards run:
+This will create an automated data management tool for Create, Read, Update and Delete.
+You can access the tool at <server_root>/<model name in lowercase>
 
-    ./box.py -m
+Afterwards if this is the first database generation, run:
+
+    ./box.py -c
+
+Afterwards it you have created the database, run:
+
+    ./box.py -c
 
 Your database will then be migrated and create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
 Check app/main.py to see the result.
