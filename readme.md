@@ -2,27 +2,27 @@
 
 EmeraldBox is a boilerplate framework for developing python web applications with database access. 
 The underlying web framework is Flask, a python microframework based on werkzeug, jinja2 and good intentions. 
-Flask gives a quite complete basic package. EmeraldBox gives structure and helper tools to speed up development and app deployment on servers.
+Flask gives a complete basic package. EmeraldBox gives structure and helper tools to speed up development and app deployment on servers.
 Several basic packages commonly used in developing web applications are included.
 
-Since EmeraldBox is derived from Flask, it uses a lot of Flask patterns and also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
+Since EmeraldBox is derived from Flask, it uses a lot of Flask patterns and also implements a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
 
 The structure implemented is mostly based on the following links:
 * http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world by Miguel Grinberg
 * http://flask.pocoo.org/docs/patterns/packages/ by Armin Ronacher
 
 # Motivation
+
 Developing web apps should be done in the easiest and most efficient ways. Python offers that. 
 However, most of the available frameworks required a deep learning curve for new users and most users have problems deploying the web app. 
 
 After using several python web frameworks as well as using other languages' frameworks like Rails, CodeIgniter and Zend, the author came to a conclusion that python is the easiest and most efficient language. 
 
-However, it will require tools that may speed up development. It that sense, Rails has a very good approach. 
-Integration with 3rd party packages should also comes easily without having the need to interfere with the main OS. 
+However, it will require tools that may speed up development. It that sense, Rails has a very good approach and will be implemented for the helper tools. Integration with 3rd party packages should also comes easily without having the need to interfere with the main OS, hence comes virtualenv. 
 
 Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framework.
 
-EmeraldBox comes in a localized environment using the well-known virtualenv and includes standard packages that are commonly used in web development. The tool includes data management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. A more rails-like approach is used since it helps developers in many ways.
+EmeraldBox comes in a localized environment and includes standard packages that are commonly used in web development. The tool includes framework management tools and is designed to give ease for developers in managing database and migrations.
 
 # Installer package
 
@@ -42,19 +42,19 @@ You can add your desired python package by running:
     box/bin/pip install <package name>
 
 # Setup
-
-clone repository
+You can get EmeraldBox using two ways:
+* Get the stable version from http://emeraldbox.emfeld.com
+* Get the bleeding edge version by cloning this repo. 
 
     git clone https://github.com/femmerling/EmeraldBox.git <project_name>
 
-EmeraldBox is a localized environment build using virtualenv.
-To adjust the environment settings to your local environment, go to the root EmeraldBox directory and run:
+To get started with EmeraldBox, use terminal and go to the EmeraldBox root folder and run:
 
     python setup.py
 
 The setup will then automatically download packages and adjusted your settings.
 
-If you want to control your project using git do the followings:
+If you clone from git and want to control your project using git do the followings:
 
 change to directory of <project_name>
 
@@ -70,6 +70,7 @@ add replace remote
 # Server and Deployment
 
 As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the famous Tornado Web Server. 
+
 Tornado is integrated for 4 reasons:
 * The integration with Flask is straightforward.
 * It has a good WSGI wrapper.
