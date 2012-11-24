@@ -1,20 +1,32 @@
 # Description
 
 EmeraldBox is a boilerplate framework for developing python web applications with database access. 
-The framework is based on Flask, a python microframework based on werkzeug, jinja2 and good intentions.
+The underlying web framework is Flask, a python microframework based on werkzeug, jinja2 and good intentions. 
+Flask gives a quite complete basic package. EmeraldBox gives structure and helper tools to speed up development and app deployment on servers.
 Several basic packages commonly used in developing web applications are included.
-EmeraldBox also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
+
+Since EmeraldBox is derived from Flask, it uses a lot of Flask patterns and also provides a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
 
 The structure implemented is mostly based on the following links:
 * http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world by Miguel Grinberg
 * http://flask.pocoo.org/docs/patterns/packages/ by Armin Ronacher
 
 # Motivation
-Currently there are no complete all in one package available that includes common packages for developing web applications using Flask on a non-GAE platform.
-Therefore this repo is set with the most common packages used in a standard web development project.
-The tool includes database management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. A more rails-like approach is used since it helps developers in many ways.
+Developing web apps should be done in the easiest and most efficient ways. Python offers that. 
+However, most of the available frameworks required a deep learning curve for new users and most users have problems deploying the web app. 
+
+After using several python web frameworks as well as using other languages' frameworks like Rails, CodeIgniter and Zend, the author came to a conclusion that python is the easiest and most efficient language. 
+
+However, it will require tools that may speed up development. It that sense, Rails has a very good approach. 
+Integration with 3rd party packages should also comes easily without having the need to interfere with the main OS. 
+
+Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framework.
+
+EmeraldBox comes in a localized environment using the well-known virtualenv and includes standard packages that are commonly used in web development. The tool includes data management tools based on SQLAlchemy and is designed to give ease for developers in managing database and migrations. A more rails-like approach is used since it helps developers in many ways.
 
 # Installer package
+
+To run EmeraldBox, you need python 2.5 and above. However, Python 3 is not yet supported.
 
 EmeraldBox setup will install the following packages for you:
 * Flask
@@ -25,7 +37,7 @@ EmeraldBox setup will install the following packages for you:
 * Nose
 * Tornado Web Server
 
-You can add your desired package by running:
+You can add your desired python package by running:
 
     box/bin/pip install <package name>
 
@@ -57,7 +69,14 @@ add replace remote
 
 # Server and Deployment
 
-As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the famous Tornado Web Server. You app is ready to be deployed and run since instalation. Run the server using:
+As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the famous Tornado Web Server. 
+Tornado is integrated for 4 reasons:
+* The integration with Flask is straightforward.
+* It has a good WSGI wrapper.
+* It is highly scalable.
+* It is secure.
+
+You EmeraldBox package is a ready to deploy package and your app is ready to be published since instalation. Run the server using:
         
     ./ignite.py
 
@@ -78,21 +97,21 @@ Run the following:
 This will create an automated data management tool for Create, Read, Update and Delete.
 You can access the tool at <server_root>/<model name in lowercase>
 
-Afterwards if this is the first database generation, run:
-
-    ./box.py -c
-
-Afterwards it you have created the database, run:
-
-    ./box.py -c
-
-Your database will then be migrated and create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
+Your database will then be migrated and EmeraldBox will automatically create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
 Check app/main.py to see the result.
 
-if you have an empty model, the new database will be created. If you are adding a new model run the following after the -n function is executed:
+If you have your code and want to deploy it elsewhere, you can get the same database scheme automatically in the new server by running the database creation and migration tool.
+
+Simply run:
+
+    ./box.py -c
+
+And your database will be created. Afterwards, run:
 
     ./box.py -m
-    ./box.py -u
+
+This will migrate your database to the latest version and making it ready for use with your code.
+
 
 You can also initiate your own controller in the controller file.
 Simply run the following
@@ -111,13 +130,23 @@ To execute Nose, simply run the following
 
 # Other Notes
 
-Currently no documentation is available and the project is at its early alpha. Use carefully.
+Currently this is the only documentation available and the project is still developing from day to day. Use carefully!
+
+If you wish to use a rather stable version, use download the package from http://emeraldbox.emfeld.com.
+
+Currently the package is tested only on unix/linux systems. No support is currently provided for Windows (sorry windows fans).
 
 for documentation on python see http://www.python.org <br>
 for documentation on Flask see http://flask.pocoo.org <br>
 for documentation on SQLAlchemy see http://www.sqlalchemy.org <br>
 
-If you found any issues please put them in the issue section. I'll respond to it as soon as I have time.
+# Contributing
 
-for direct contact email erich@emfeld.com
+If you found any issues please put them in the issue section.
 
+To contribute, simply place a pull request and email the author at erich@emfeld.com
+
+# Ending Note
+
+This framework adds the diversity in python, a language which have more web frameworks than keywords.
+Thank you for trying it out and all suggestions are welcome.
