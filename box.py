@@ -167,8 +167,13 @@ def add_model(model_name, model_components):
     add_model_create_controller(model_name,model_components)
     add_model_edit_controller_template(model_name,model_components)
     add_model_delete_controller(model_name,model_components)
-    print '\nIf this is your first database and you wish to generate it, please run ./box.py -c and then run ./box.py -m afterwards.'
-    print '\nIf this is not your first database and you wish to migrate to a new schema, please run ./box.py -m.'
+    if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
+        db_create()
+        db_migrate()
+    else:
+        db_migrate()
+    #print '\nIf this is your first database and you wish to generate it, please run ./box.py -c and then run ./box.py -m afterwards.'
+    #print '\nIf this is not your first database and you wish to migrate to a new schema, please run ./box.py -m.'
     
 def add_model_json_controller_route(model_name):
     # this is used to generate json callback handler for a specific model in the controller file
