@@ -81,23 +81,35 @@ Tornado is integrated for 4 reasons:
 * It is highly scalable.
 * It is secure.
 
-You EmeraldBox package is a ready to deploy package and your app is ready to be published since instalation. Run the server using:
+You EmeraldBox package is a ready to deploy package and your app is ready to be published since instalation. Run the server on unix/linux using:
         
     ./ignite.py
+
+Or on windows:
+
+    python ignite.py
 
 The app will run at port 5000. You can change the port in the ignite.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
 
 # Usage
 
-Framework generators and tools available. to see the functions run:
+Framework generators and tools available. to see the functions on unix/linux run:
 
     ./box.py -h
 
+Or on windows:
+
+    python box.py -h
+
 Automated database creation tool available.
 
-Run the following:
+Run the following on unix/linux:
 
     ./box.py -n <Model Name> <field name>:<field type>--<field length (optional)>
+
+Or on windows:
+
+    python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>    
 
 This will create an automated data management tool for Create, Read, Update and Delete.
 You can access the tool at <server_root>/<model name in lowercase>
@@ -107,21 +119,33 @@ Check app/main.py to see the result.
 
 If you have your code and want to deploy it elsewhere, you can get the same database scheme automatically in the new server by running the database creation and migration tool.
 
-Simply run:
+On unix/linux simply run:
 
     ./box.py -c
 
-And your database will be created. Afterwards, run:
+Or on windows:
+
+    python box.py -c
+
+And your database will be created. Afterwards, on unix/linux run:
 
     ./box.py -m
+
+Or on windows:
+
+    python box.py -m
 
 This will migrate your database to the latest version and making it ready for use with your code.
 
 
 You can also initiate your own controller in the controller file.
-Simply run the following
+On unix/linux simply run the following
 
     ./box.py -i <controller name>
+
+Or on windows:
+
+    python box.py -i <controller name>
 
 this controller initiation will also automatically generate a view file in your app/templates/ folder with your controller name as the file name.
 
