@@ -37,9 +37,13 @@ EmeraldBox setup will install the following packages for you:
 * Nose
 * Tornado Web Server
 
-You can add your desired python package by running:
+You can add your desired python package on unix/linux by running:
 
     box/bin/pip install <package name>
+
+or on windows:
+
+    box/Scripts/pip install <package name>
 
 # Setup
 You can get EmeraldBox using two ways:
@@ -125,9 +129,13 @@ this controller initiation will also automatically generate a view file in your 
 
 Currently we include Nosetest into the package. You can use it to perform BDD.
 
-To execute Nose, simply run the following
+To execute Nose on unix/linux, simply run the following
 
     box/bin/nosetests
+
+On windows simply run
+    
+    box/Scripts/nosetests
 
 # Other Notes
 
@@ -135,7 +143,9 @@ Currently this is the only documentation available and the project is still deve
 
 If you wish to use a rather stable version, use download the package from http://emeraldbox.emfeld.com.
 
-Currently the package is tested only on unix/linux systems. No support is currently provided for Windows (sorry windows fans).
+Currently the package is tested only on unix/linux systems.
+
+Limited support is provided for Windows. Currently you can run the setup on windows system.
 
 for documentation on python see http://www.python.org <br>
 for documentation on Flask see http://flask.pocoo.org <br>
