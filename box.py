@@ -98,14 +98,14 @@ def add_model(model_name, model_components):
     # Write the class definition.
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('\tid = db.Column(db.Integer, primary_key=True)\n')
+    model_file.write('\t'+model_name.lower()+'_id = db.Column(db.BigInteger, primary_key=True)\n')
 
     ## Add the model fields.
     ### First check for the data types and standardize it.
     for component in model_components:
         in_type = component['field_property'][0].lower()
         ### The database field type based on http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic.
-        if in_type == 'biginteger':
+        if in_type == 'biginteger' or in_type == 'bigint':
             data_type = 'BigInteger'
         elif in_type == 'boolean':
             data_type = 'Boolean'
@@ -165,7 +165,7 @@ def add_model(model_name, model_components):
 
     ### Add the json component for all fields.
     mod_counter = 1
-    model_file.write('\t\t\t\tid = self.id,\n')
+    model_file.write('\t\t\t\t'+model_name.lower()+'id = self.'+model_name.lower()+'_id,\n')
     max_mod_index = len(model_components)
 
     for component in model_components:
@@ -289,8 +289,8 @@ def add_model_view_controller_and_template(model_name, model_components):
     for component in model_components:
         template_file.write("\t\t\t\t\t<td>{{ entry." + component['field_name'] + " }}</td>\n")
 
-    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.id }}">Edit</a></td>\n')
-    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/delete/{{ entry.id }}">Delete</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.'+model_name+'_id }}">Edit</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/delete/{{ entry.'+model_name+'_id }}">Delete</a></td>\n')
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t\t{% endfor %}\n")
     template_file.write("\t\t\t</tbody>\n")
