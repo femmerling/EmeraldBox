@@ -194,8 +194,8 @@ def add_model(model_name, model_components):
     if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
         db_create()
         db_migrate()
-    else:
-        db_migrate()
+    
+    print "Please run box.py -m to complete the migration process"
 
 
 def add_model_json_controller_route(model_name):
