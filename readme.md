@@ -175,3 +175,6 @@ To contribute, simply place a pull request and email the author at erich@emfeld.
 
 This framework adds the diversity in python, a language which have more web frameworks than keywords.
 Thank you for trying it out and all suggestions are welcome.
+
+Also, special thanks to @pebaryan for extra inputs during the Sanitation Hackathon, which I use to test the framework.
+The framework worked well with some hacks here and there to improve it. The app that we built got 2nd prize.
