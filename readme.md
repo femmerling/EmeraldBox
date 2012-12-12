@@ -30,20 +30,24 @@ To run EmeraldBox, you need python 2.5 and above. However, Python 3 is not yet s
 
 EmeraldBox setup will install the following packages for you:
 * Flask
-* Flask-Mail
 * Flask-SQLAlchemy
 * SQLAlchemy
 * SQLAlchemy-Migrate
-* Nose
 * Tornado Web Server
 
-You can add your desired python package on unix/linux by running:
+You can add your desired python package by running:
 
-    box/bin/pip install <package name>
+    ./box.py -a <package name>
 
 or on windows:
 
-    box/Scripts/pip install <package name>
+    box/Scripts/python box.py -a <package name>
+
+To add package during the setup process, open config.py and add into the list of ADDITIONAL_PACKAGES, i.e:
+
+    ADDITIONAL_PACKAGES = ['PIL','xlrd']
+
+Your additional packages will be installed during setup. If you leave the list blank, setup will only install the 5 packages listed above.
 
 # Setup
 You can get EmeraldBox using two ways:
@@ -87,7 +91,7 @@ You EmeraldBox package is a ready to deploy package and your app is ready to be 
 
 Or on windows:
 
-    python ignite.py
+    box\Scripts\python ignite.py
 
 The app will run at port 5000. You can change the port in the ignite.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
 
@@ -99,7 +103,7 @@ Framework generators and tools available. to see the functions on unix/linux run
 
 Or on windows:
 
-    python box.py -h
+    box\Scripts\python box.py -h
 
 Automated database creation tool available.
 
@@ -109,7 +113,7 @@ Run the following on unix/linux:
 
 Or on windows:
 
-    python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>    
+    box\Scripts\python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>    
 
 This will create an automated data management tool for Create, Read, Update and Delete.
 You can access the tool at <server_root>/<model name in lowercase>
@@ -125,7 +129,7 @@ On unix/linux simply run:
 
 Or on windows:
 
-    python box.py -c
+    box\Scripts\python box.py -c
 
 And your database will be created. Afterwards, on unix/linux run:
 
@@ -133,7 +137,7 @@ And your database will be created. Afterwards, on unix/linux run:
 
 Or on windows:
 
-    python box.py -m
+    box\Scripts\python box.py -m
 
 This will migrate your database to the latest version and making it ready for use with your code.
 
@@ -145,21 +149,9 @@ On unix/linux simply run the following
 
 Or on windows:
 
-    python box.py -i <controller name>
+    box\Scripts\python box.py -i <controller name>
 
 this controller initiation will also automatically generate a view file in your app/templates/ folder with your controller name as the file name.
-
-# Testing
-
-Currently we include Nosetest into the package. You can use it to perform BDD.
-
-To execute Nose on unix/linux, simply run the following
-
-    box/bin/nosetests
-
-On windows simply run
-    
-    box/Scripts/nosetests
 
 # Other Notes
 
@@ -167,9 +159,7 @@ Currently this is the only documentation available and the project is still deve
 
 If you wish to use a rather stable version, use download the package from http://emeraldbox.emfeld.com.
 
-Currently the package is tested only on unix/linux systems.
-
-Limited support is provided for Windows. Currently you can run the setup on windows system.
+EmeraldBox is tested on unix/linux systems and on Windows 7 and Windows 8.
 
 for documentation on python see http://www.python.org <br>
 for documentation on Flask see http://flask.pocoo.org <br>
