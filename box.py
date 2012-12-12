@@ -2,18 +2,18 @@
 import imp
 import sys
 import os.path
+from subprocess import call
+import platform
 
 from migrate.versioning import api
 from app import db
-from config import SQLALCHEMY_DATABASE_URI
-from config import SQLALCHEMY_MIGRATE_REPO
+from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 
 # This variable will be used to check the valid data types enterred by the user in box.py -n command.
 valid_data_types = [
     'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
-    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint',
-                        'string', 'text', 'unicode', 'unicodetext',
-                        'binary', 'largebinary', 'blob'
+    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint','string', 
+    'text', 'unicode', 'unicodetext','binary', 'largebinary', 'blob'
 ]
 
 
@@ -32,6 +32,8 @@ def help():
     print ' --new or -n             : Create new data model.'
     print '\t\t\t   The pattern is box.py -n [model name] [<field name>:<field type>--<field length (if applicable. otherwise, default will be used)>]'
     print '\t\t\t   For more documentation please see http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic'
+    print ' --add or -a             : Install a new python package.'
+    print '\t\t\t   The pattern is python box.py -a [package name]'
     print ' --help or -h            : Display the help file'
     print ''
 
@@ -91,8 +93,7 @@ def add_model(model_name, model_components):
     # This is used to add model to the model file.
 
     # Get the current model file and open it for writing.
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    model_path = os.path.join(basedir, 'app/models.py')
+    model_path = os.path.join(BASEDIR, 'app/models.py')
     model_file = open(model_path, 'a')
 
     # Write the class definition.
@@ -206,8 +207,7 @@ def add_model_json_controller_route(model_name):
     db_model_name = model_name.title()
 
     # Get the controller file.
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
 
     # Read the original file.
     read_controller_file = open(controller_path, 'r')
@@ -247,9 +247,8 @@ def add_model_json_controller_route(model_name):
 
 def add_model_view_controller_and_template(model_name, model_components):
     model_name = model_name.lower()
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
-    template_path = os.path.join(basedir, 'app/templates/' + model_name + '.html')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '.html')
     controller_file = open(controller_path, 'a')
 
     controller_file.write("@app.route('/" + model_name + "/')\n")
@@ -308,9 +307,8 @@ def add_model_view_controller_and_template(model_name, model_components):
 def add_model_add_controller_template(model_name, model_components):
 
     model_name = model_name.lower()
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
-    template_path = os.path.join(basedir, 'app/templates/' + model_name + '_add.html')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '_add.html')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/add/')\n")
@@ -347,9 +345,8 @@ def add_model_add_controller_template(model_name, model_components):
 
 def add_model_edit_controller_template(model_name, model_components):
     model_name = model_name.lower()
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
-    template_path = os.path.join(basedir, 'app/templates/' + model_name + '_edit.html')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '_edit.html')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/edit/<id>')\n")
@@ -405,8 +402,7 @@ def add_model_create_controller(model_name, model_components):
     model_name = model_name.lower()
     mod_counter = 1
     max_mod_index = len(model_components)
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/create/',methods=['POST','GET'])\n")
@@ -435,9 +431,8 @@ def add_model_create_controller(model_name, model_components):
 
 def add_model_delete_controller(model_name, model_components):
     model_name = model_name.lower()
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    controller_path = os.path.join(basedir, 'app/main.py')
-    template_path = os.path.join(basedir, 'app/templates/' + model_name + '_add.html')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '_add.html')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/delete/<id>')\n")
@@ -452,14 +447,13 @@ def add_model_delete_controller(model_name, model_components):
 
 
 def add_controller(controller_name):
-    basedir = os.path.abspath(os.path.dirname(__file__))
     controller_name = controller_name.lower()
     controller_name = controller_name.replace(' ', '_')
     controller_name = controller_name.replace('\'', '_')
     controller_name = controller_name.replace('.', '_')
     controller_name = controller_name.replace(',', '_')
-    controller_path = os.path.join(basedir, 'app/main.py')
-    view_path = os.path.join(basedir, 'app/templates/' + controller_name + '.html')
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    view_path = os.path.join(BASEDIR, 'app/templates/' + controller_name + '.html')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("\n\n@app.route('/" + controller_name + "/') #Link\n")
@@ -489,11 +483,32 @@ def db_version():
 
     print 'The current database version is ' + str(current_version)
 
+def install_package(package_name):
+    if not package_name:
+        print "You need to specify a valid package name"
+    else:
+        current_platform = platform.system()
+        bin_base = ''
+        if current_platform == 'Windows':
+            bin_base = 'box\Scripts\pip'
+        else:
+            bin_base = 'box/bin/pip'
+
+        call([bin_base, 'install', package_name.lower()])
+
+
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
 
     if sysinput == '--help' or sysinput == '-h':
         help()
+
+    elif sysinput == '--add' or sysinput == '-a':
+        if sys.argv[2]:
+            install_package(sys.argv[2])
+        else:
+            print "You need to specify a valid package name"
+            sys.exit()
 
     elif sysinput == '--create' or sysinput == '-c':
         if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
