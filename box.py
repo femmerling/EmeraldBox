@@ -166,7 +166,7 @@ def add_model(model_name, model_components):
 
     ### Add the json component for all fields.
     mod_counter = 1
-    model_file.write('\t\t\t\t'+model_name.lower()+'id = self.'+model_name.lower()+'_id,\n')
+    model_file.write('\t\t\t\t'+model_name.lower()+'_id = self.'+model_name.lower()+'_id,\n')
     max_mod_index = len(model_components)
 
     for component in model_components:
@@ -352,7 +352,7 @@ def add_model_edit_controller_template(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/edit/<id>')\n")
     controller_file.write("def " + model_name + "_edit_controller(id):\n")
     controller_file.write("\t#this is the controller to edit model entries\n")
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + ".id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
     controller_file.write("\treturn render_template('" + model_name + "_edit.html', " + model_name + "_item = " + model_name + "_item)\n\n")
 
     template_file = open(template_path, 'w')
@@ -361,7 +361,7 @@ def add_model_edit_controller_template(model_name, model_components):
     template_file.write("\t<head><title>Edit " + model_name.title() + " Entries</title></head>\n")
     template_file.write("\t<body>\n")
     template_file.write("\t\t<h1>Edit " + model_name.title() + " Entries.</h1>\n")
-    template_file.write("\t\t<form name=\"" + model_name + "_add\" method=\"post\" action=\"/" + model_name + "/update/{{ " + model_name + "_item.id }}\">\n")
+    template_file.write("\t\t<form name=\"" + model_name + "_add\" method=\"post\" action=\"/" + model_name + "/update/{{ " + model_name + "_item."model_name"_id }}\">\n")
     template_file.write("\t\t<table>\n")
 
     for component in model_components:
@@ -386,7 +386,7 @@ def add_model_edit_controller_template(model_name, model_components):
     for component in model_components:
         controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() + "')\n")
 
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + ".id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
 
     for component in model_components:
         controller_file.write("\t" + model_name + "_item." + component['field_name'].lower() + " = " + component['field_name'].lower() + "\n")
@@ -438,7 +438,7 @@ def add_model_delete_controller(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/delete/<id>')\n")
     controller_file.write("def " + model_name + "_delete_controller(id):\n")
     controller_file.write("\t#this is the controller to delete model entries\n")
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + ".id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
     controller_file.write("\n\tdb.session.delete(" + model_name + "_item)\n")
     controller_file.write("\tdb.session.commit()\n")
     controller_file.write("\n\treturn 'data deletion successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
