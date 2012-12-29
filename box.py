@@ -12,8 +12,8 @@ from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 # This variable will be used to check the valid data types enterred by the user in box.py -n command.
 valid_data_types = [
     'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
-    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint','string', 
-    'text', 'unicode', 'unicodetext','binary', 'largebinary', 'blob'
+    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint', 'string',
+    'text', 'unicode', 'unicodetext', 'binary', 'largebinary', 'blob'
 ]
 
 
@@ -99,7 +99,7 @@ def add_model(model_name, model_components):
     # Write the class definition.
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('\t'+model_name.lower()+'_id = db.Column(db.BigInteger, primary_key=True)\n')
+    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.BigInteger, primary_key=True)\n')
 
     ## Add the model fields.
     ### First check for the data types and standardize it.
@@ -166,7 +166,7 @@ def add_model(model_name, model_components):
 
     ### Add the json component for all fields.
     mod_counter = 1
-    model_file.write('\t\t\t\t'+model_name.lower()+'_id = self.'+model_name.lower()+'_id,\n')
+    model_file.write('\t\t\t\t' + model_name.lower() + '_id = self.' + model_name.lower() + '_id,\n')
     max_mod_index = len(model_components)
 
     for component in model_components:
@@ -194,7 +194,7 @@ def add_model(model_name, model_components):
     if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
         db_create()
         db_migrate()
-    
+
     print "Please run box.py -m to complete the migration process"
 
 
@@ -259,13 +259,11 @@ def add_model_view_controller_and_template(model_name, model_components):
     controller_file.write("\t\t" + model_name + "_entries = [" + model_name + ".dto() for " + model_name + " in " + model_name + "_list]\n")
     controller_file.write("\telse:\n")
     controller_file.write("\t\t" + model_name + "_entries = None\n\n")
-    controller_file.write("\treturn render_template('" + model_name + ".html'," + model_name + "_entries = " + model_name + "_entries)\n\n")
+    controller_file.write("\treturn render_template('" + model_name + ".html'," + model_name + "_entries = " + model_name + "_entries, title = \"" + model_name.title() + " List\")\n\n")
 
     template_file = open(template_path, 'w')
-    template_file.write("<!doctype html>\n")
-    template_file.write("<html>")
-    template_file.write("\t<head><title>" + model_name.title() + " Entries</title></head>\n")
-    template_file.write("\t<body>\n")
+    template_file.write("{% extends \"base.html\" %}\n")
+    template_file.write("{% block content %}\n")
     template_file.write("\t\t<h1>List of " + model_name.title() + " Entries.</h1>\n")
     template_file.write("\t\t<table>\n")
     template_file.write("\t\t\t<thead>\n")
@@ -288,8 +286,8 @@ def add_model_view_controller_and_template(model_name, model_components):
     for component in model_components:
         template_file.write("\t\t\t\t\t<td>{{ entry." + component['field_name'] + " }}</td>\n")
 
-    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.'+model_name+'_id }}">Edit</a></td>\n')
-    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/delete/{{ entry.'+model_name+'_id }}">Delete</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.' + model_name + '_id }}">Edit</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/delete/{{ entry.' + model_name + '_id }}">Delete</a></td>\n')
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t\t{% endfor %}\n")
     template_file.write("\t\t\t</tbody>\n")
@@ -298,8 +296,7 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("\t\tYou have no entries yet\n")
     template_file.write("\t\t\t{% endif %}\n")
     template_file.write('\t\t\t<b><a href="/' + model_name + '/add">Add new entry</a></b>\n')
-    template_file.write("\t</body>\n")
-    template_file.write("</html>")
+    template_file.write("{% endblock %}\n")
 
     print 'Entries view controller added'
 
@@ -314,13 +311,11 @@ def add_model_add_controller_template(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/add/')\n")
     controller_file.write("def " + model_name + "_add_controller():\n")
     controller_file.write("\t#this is the controller to add new model entries\n")
-    controller_file.write("\treturn render_template('" + model_name + "_add.html')\n\n")
+    controller_file.write("\treturn render_template('" + model_name + "_add.html', title = \"Add New Entry\")\n\n")
 
     template_file = open(template_path, 'w')
-    template_file.write("<!doctype html>\n")
-    template_file.write("<html>")
-    template_file.write("\t<head><title>" + model_name.title() + " Entries</title></head>\n")
-    template_file.write("\t<body>\n")
+    template_file.write("{% extends \"base.html\" %}\n")
+    template_file.write("{% block content %}\n")
     template_file.write("\t\t<h1>Add new " + model_name.title() + " Entries.</h1>\n")
     template_file.write("\t\t<form name=\"" + model_name + "_add\" method=\"post\" action=\"/" + model_name + "/create/\">\n")
     template_file.write("\t\t<table>\n")
@@ -337,8 +332,7 @@ def add_model_add_controller_template(model_name, model_components):
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t</table>\n")
     template_file.write("\t\t</form>\n")
-    template_file.write("\t</body>\n")
-    template_file.write("</html>")
+    template_file.write("{% endblock %}")
 
     print 'Entries add form controller added'
 
@@ -352,16 +346,14 @@ def add_model_edit_controller_template(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/edit/<id>')\n")
     controller_file.write("def " + model_name + "_edit_controller(id):\n")
     controller_file.write("\t#this is the controller to edit model entries\n")
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
-    controller_file.write("\treturn render_template('" + model_name + "_edit.html', " + model_name + "_item = " + model_name + "_item)\n\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == id).first()\n")
+    controller_file.write("\treturn render_template('" + model_name + "_edit.html', " + model_name + "_item = " + model_name + "_item, title = \"Edit Entries\")\n\n")
 
     template_file = open(template_path, 'w')
-    template_file.write("<!doctype html>\n")
-    template_file.write("<html>")
-    template_file.write("\t<head><title>Edit " + model_name.title() + " Entries</title></head>\n")
-    template_file.write("\t<body>\n")
+    template_file.write("{% extends \"base.html\" %}\n")
+    template_file.write("{% block content %}\n")
     template_file.write("\t\t<h1>Edit " + model_name.title() + " Entries.</h1>\n")
-    template_file.write("\t\t<form name=\"" + model_name + "_add\" method=\"post\" action=\"/" + model_name + "/update/{{ " + model_name + "_item."model_name"_id }}\">\n")
+    template_file.write("\t\t<form name=\"" + model_name + "_add\" method=\"post\" action=\"/" + model_name + "/update/{{ " + model_name + "_item." + model_name + "_id }}\">\n")
     template_file.write("\t\t<table>\n")
 
     for component in model_components:
@@ -376,8 +368,7 @@ def add_model_edit_controller_template(model_name, model_components):
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t</table>\n")
     template_file.write("\t\t</form>\n")
-    template_file.write("\t</body>\n")
-    template_file.write("</html>")
+    template_file.write("{% endblock %}")
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/update/<id>',methods=['POST','GET'])\n")
     controller_file.write("def " + model_name + "_update_data_controller(id):\n")
@@ -386,7 +377,7 @@ def add_model_edit_controller_template(model_name, model_components):
     for component in model_components:
         controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() + "')\n")
 
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == id).first()\n")
 
     for component in model_components:
         controller_file.write("\t" + model_name + "_item." + component['field_name'].lower() + " = " + component['field_name'].lower() + "\n")
@@ -438,7 +429,7 @@ def add_model_delete_controller(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/delete/<id>')\n")
     controller_file.write("def " + model_name + "_delete_controller(id):\n")
     controller_file.write("\t#this is the controller to delete model entries\n")
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "."model_name"_id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == id).first()\n")
     controller_file.write("\n\tdb.session.delete(" + model_name + "_item)\n")
     controller_file.write("\tdb.session.commit()\n")
     controller_file.write("\n\treturn 'data deletion successful <a href=\"/" + model_name + "/\">back to Entries</a>'\n\n")
@@ -482,6 +473,7 @@ def db_version():
     current_version = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 
     print 'The current database version is ' + str(current_version)
+
 
 def install_package(package_name):
     if not package_name:

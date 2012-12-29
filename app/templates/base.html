@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    {% if title %}
+    <title>{{title}} - microblog</title>
+    {% else %}
+    <title>microblog</title>
+    {% endif %}
+      <meta name="DESCRIPTION" content="Page Description Here" /> 
+      <meta name="KEYWORD" content="Page Keyword Here" />
+	  	<meta name="Robots" content="all,index,follow" /> 
+	  	<meta name="revisit-after" content="1 days" /> 
+      <meta name="distribution" content="global" />
+    <link rel="stylesheet" href="/static/css/app.css"/>
+  </head>
+  <body>
+    <div id="content">
+    	{% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
