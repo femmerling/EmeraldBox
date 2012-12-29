@@ -18,4 +18,4 @@ import logging
 @app.route('/')
 def index():
 	# define your controller here
-	return render_template('index.html')
+	return render_template('welcome.html')
