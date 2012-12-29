@@ -95,6 +95,19 @@ Or on windows:
 
 The app will run at port 5000. You can change the port in the ignite.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
 
+We also provide a development server with debugging tools inside. Use it during development time to improve your work.
+
+Run the development server on unix/linux using:
+
+    ./testrun.py
+
+Or on windows:
+
+    box\Scripts\python testrun.py
+
+For security concerns we urge you not to use the development server for production usage.
+
+
 # Usage
 
 Framework generators and tools available. to see the functions on unix/linux run:
