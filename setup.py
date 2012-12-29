@@ -7,6 +7,7 @@ current_platform = platform.system()
 virtualenv_path = os.path.join(BASEDIR, 'virtualenv.py')
 box_path = os.path.join(BASEDIR, 'box.py')
 ignite_path = os.path.join(BASEDIR, 'ignite.py')
+testrun_path = os.path.join(BASEDIR, 'testrun.py')
 
 def update_environment(file_path):
 	update_file = open(file_path, 'r')
@@ -24,6 +25,7 @@ def update_environment(file_path):
 
 update_environment(box_path)
 update_environment(ignite_path)
+update_environment(testrun_path)
 
 bin_base = 'box/bin/pip'
 if current_platform == 'Windows':
@@ -37,6 +39,7 @@ else:
 	call(['python', virtualenv_path, 'box'])
 	call(['chmod', 'a+x', box_path])
 	call(['chmod', 'a+x', ignite_path])
+	call(['chmod', 'a+x', testrun_path])
 
 
 print 'new environment created, now installing components\n'
