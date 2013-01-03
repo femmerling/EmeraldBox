@@ -12,7 +12,7 @@ from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 # This variable will be used to check the valid data types enterred by the user in box.py -n command.
 valid_data_types = [
     'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
-    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint', 'string',
+    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint', 'string', 'int', 'bigint',
     'text', 'unicode', 'unicodetext', 'binary', 'largebinary', 'blob'
 ]
 
@@ -118,7 +118,7 @@ def add_model(model_name, model_components):
             data_type = 'Enum'
         elif in_type == 'float':
             data_type = 'Float'
-        elif in_type == 'integer':
+        elif in_type == 'integer' or 'int':
             data_type = 'Integer'
         elif in_type == 'interval':
             data_type = 'Interval'
@@ -184,6 +184,7 @@ def add_model(model_name, model_components):
     # Add the JSON controller and CRUD controllers.
     add_model_json_controller_route(model_name)
     add_model_view_controller_and_template(model_name, model_components)
+    add_single_views_controller_template(model_name,model_components)
     add_model_add_controller_template(model_name, model_components)
     add_model_create_controller(model_name, model_components)
     add_model_edit_controller_template(model_name, model_components)
@@ -299,6 +300,49 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("{% endblock %}\n")
 
     print 'Entries view controller added'
+
+def add_single_views_controller_template(model_name, model_components):
+    model_name = model_name.lower()
+    controller_path = os.path.join(BASEDIR, 'app/main.py')
+    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '_view.html')
+
+    controller_file = open(controller_path, 'a')
+    controller_file.write("def get_single_"+model_name+"("+model_name+"_id):\n")
+    controller_file.write("\t"+model_name+" = None\n")
+    controller_file.write("\tsingle_"+model_name+" = "+model_name.title()+".query.filter("+model_name.title()+"."+model_name+"_id = "+model_name+".id).first()\n")
+    controller_file.write("\tif single_"+model_name+":\n")
+    controller_file.write("\t\t"+model_name+" = single_"+model_name+".dto()\n")
+    controller_file.write("\tresult = dict("+model_name+" = "+model_name+")\n")
+    controller_file.write("\treturn result\n\n")
+
+    controller_file.write("@app.route('/" + model_name + "/<"+model_name+"_id>.json')\n")
+    controller_file.write("def get_single_" + model_name + "_json("+model_name+"_id):\n")
+    controller_file.write("\t#this is the controller to get single entry in json format\n")
+    controller_file.write("\tresult = json.dumps(get_single_"+model_name+"("+model_name+"_id))\n")
+    controller_file.write("\treturn result\n\n")
+
+    controller_file.write("@app.route('/" + model_name + "/<"+model_name+"_id>')\n")
+    controller_file.write("def view_single_" + model_name + "("+model_name+"_id):\n")
+    controller_file.write("\t#this is the controller to get single entry view\n")
+    controller_file.write("\t"+model_name+" = get_single_"+model_name+"("+model_name+"_id)\n")
+    controller_file.write("\treturn render_template("+model_name+"_view.html, "+model_name+" = "+model_name+")\n\n")
+
+    template_file = open(template_path, 'w')
+    template_file.write("{% extends \"base.html\" %}\n")
+    template_file.write("{% block content %}\n")
+    template_file.write("\t\t<h1>View " + model_name.title() + " single entry.</h1>\n")
+    template_file.write("\t\t<table>\n")
+
+    for component in model_components:
+        template_file.write("\t\t\t\t<tr>\n")
+        template_file.write("\t\t\t\t\t<td>" + component['field_name'].title() + ":</td>\n")
+        template_file.write("\t\t\t\t\t<td>{{ " + model_name + "_item." + component['field_name'].lower() + " }}</td>\n")
+        template_file.write("\t\t\t\t</tr>\n")
+
+    template_file.write("\t\t</table>\n")
+    template_file.write("{% endblock %}")
+
+    print 'Single entries view and controller added'
 
 
 def add_model_add_controller_template(model_name, model_components):
