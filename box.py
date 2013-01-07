@@ -266,7 +266,7 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("{% extends \"base.html\" %}\n")
     template_file.write("{% block content %}\n")
     template_file.write("\t\t<h1>List of " + model_name.title() + " Entries.</h1>\n")
-    template_file.write("\t\t<table>\n")
+    template_file.write("\t\t<table id=\"list-view\">\n")
     template_file.write("\t\t\t<thead>\n")
     template_file.write("\t\t\t\t<tr>\n")
     template_file.write("\t\t\t\t\t<td><b>ID</td>\n")
@@ -292,11 +292,11 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t\t{% endfor %}\n")
     template_file.write("\t\t\t</tbody>\n")
-    template_file.write("\t\t</table>\n")
     template_file.write("\t\t\t{% else %}\n")
+    template_file.write("\t\t</table>\n")
     template_file.write("\t\tYou have no entries yet\n")
     template_file.write("\t\t\t{% endif %}\n")
-    template_file.write('\t\t\t<b><a href="/' + model_name + '/add">Add new entry</a></b>\n')
+    template_file.write('\t\t\t<b><a id="actions" href="/' + model_name + '/add">Add new entry</a></b>\n')
     template_file.write("{% endblock %}\n")
 
     print 'Entries view controller added'
