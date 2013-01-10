@@ -27,13 +27,12 @@ def tempfix_migrate():
 	buggy_path = os.path.join(BASEDIR, 'box/lib/python2.7/site-packages/migrate/versioning/schema.py')
 	buggy_file = open(buggy_path,'r')
 	original_lines = buggy_file.readlines()
-	for line in original_lines:
-		if line == "from sqlalchemy import exceptions as sa_exceptions":
-			line = "#from sqlalchemy import exceptions as sa_exceptions"
+	original_lines[9] = "\n"
 	buggy_file.close()
 	update_file = open(buggy_path,'w')
 	for lines in original_lines:
 		update_file.write(lines)
+	update_file.close()
 
 update_environment(box_path)
 update_environment(ignite_path)
@@ -77,13 +76,13 @@ print '# to use SQLAlchemy with MySQL, PostgreSQL and   #'
 print '# Oracle, you need to install additional modules #'
 print '##################################################\n'
 
+tempfix_migrate()
+
 print 'installing Tornado Web Server\n'
 call([bin_base, 'install', 'tornado'])
 print '\nTornado Web Server installed\n'
 print '\nAll basic packages have been installed!\n'
 print '\nYour basic EmeraldBox instalation is ready to use.\n'
-
-tempfix_migrate();
 
 if len(ADDITIONAL_PACKAGES) > 0:
 	print '\nNow installing additional packages\n'
