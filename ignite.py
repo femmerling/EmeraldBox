@@ -9,6 +9,6 @@ from config import SERVER_PORT
 print "EmeraldBox is now running powered by Tornado Web Server on port " + str(SERVER_PORT) + " ..."
 
 http_server = HTTPServer(WSGIContainer(app))
-http_server.listen(server_port)
+http_server.listen(SERVER_PORT)
 autoreload.start()
 IOLoop.instance().start()
