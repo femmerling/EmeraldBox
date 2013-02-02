@@ -12,7 +12,7 @@ from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 # This variable will be used to check the valid data types enterred by the user in box.py -n command.
 valid_data_types = [
     'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
-    'numeric', 'float', 'integer', 'biginteger', 'smallinteger', 'smallint', 'string', 'int', 'bigint',
+    'numeric', 'float', 'biginteger', 'smallinteger', 'smallint', 'string', 'bigint','int','integer',
     'text', 'unicode', 'unicodetext', 'binary', 'largebinary', 'blob'
 ]
 
@@ -106,7 +106,7 @@ def add_model(model_name, model_components):
     for component in model_components:
         in_type = component['field_property'][0].lower()
         ### The database field type based on http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic.
-        if in_type == 'biginteger' or in_type == 'bigint':
+        if in_type == 'biginteger' or in_type == 'bigint' or in_type=='int' or in_type=='integer':
             data_type = 'BigInteger'
         elif in_type == 'boolean':
             data_type = 'Boolean'
@@ -118,8 +118,6 @@ def add_model(model_name, model_components):
             data_type = 'Enum'
         elif in_type == 'float':
             data_type = 'Float'
-        elif in_type == 'integer' or 'int':
-            data_type = 'Integer'
         elif in_type == 'interval':
             data_type = 'Interval'
         elif in_type == 'largebinary':
