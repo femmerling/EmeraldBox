@@ -290,6 +290,7 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t\t{% endfor %}\n")
     template_file.write("\t\t\t</tbody>\n")
+    template_file.write("\t\t</table>\n")
     template_file.write("\t\t\t{% else %}\n")
     template_file.write("\t\t</table>\n")
     template_file.write("\t\tYou have no entries yet\n")
@@ -498,14 +499,11 @@ def add_controller(controller_name):
     print '\nController generated\n'
 
     view_file = open(view_path, 'a')
-    view_file.write('<!doctype html>\n')
-    view_file.write('<html>')
-    view_file.write('\t<head><title>' + controller_name.lower() + '</title></head>\n')
-    view_file.write('\t<body>\n')
+    view_file.write("{% extends \"base.html\" %}\n")
+    view_file.write("{% block content %}\n")
     view_file.write('\t\t<h1>The ' + controller_name.lower() + ' view.</h1>\n')
     view_file.write('\t\t<p>You can change this view in ' + view_path + '</p>\n')
-    view_file.write('\t</body>\n')
-    view_file.write('</html>')
+    view_file.write("{% endblock %}")
 
     print '\nview file generated and available at ' + view_path + '\n'
 
