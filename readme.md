@@ -129,7 +129,7 @@ Or on windows:
     box\Scripts\python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>    
 
 This will create an automated data management tool for Create, Read, Update and Delete.
-You can access the tool at <server_root>/<model name in lowercase>
+You can access the tool at < server_root > / < model name in lowercase >
 
 Your database will then be migrated and EmeraldBox will automatically create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
 Check app/main.py to see the result.
