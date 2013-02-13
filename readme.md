@@ -24,6 +24,13 @@ Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framewo
 
 EmeraldBox comes in a localized environment and includes standard packages that are commonly used in web development. The tool includes framework management tools and is designed to give ease for developers in managing database and migrations.
 
+We are standing in the shoulder of giants, leveraging the following technologies and knitting them to work hand-in-hand:
+* Twitter Bootstrap
+* Flask
+* SQLAlchemy 
+* Tornado
+* Best of Python Packages
+
 # Installer package
 
 To run EmeraldBox, you need python 2.5 and above. However, Python 3 is not yet supported.
@@ -48,6 +55,8 @@ To add package during the setup process, open config.py and add into the list of
     ADDITIONAL_PACKAGES = ['PIL','xlrd']
 
 Your additional packages will be installed during setup. If you leave the list blank, setup will only install the 5 packages listed above.
+
+Your basic template now comes with bootstrap to help you worry less about the UX. You can change this to meet your needs.
 
 # Setup
 You can get EmeraldBox using two ways:
