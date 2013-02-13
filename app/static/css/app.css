@@ -38,10 +38,10 @@ tr{
 	height:30px;
 }
 table{margin-bottom: 30px;}
-#list-view thead td{padding: 5px;vertical-align: middle; text-align: center; background: #777;color:#fff;}
-#list-view tbody td{padding: 5px;vertical-align: top; text-align: left; border-bottom: 1px solid #ccc; border-left:1px solid #ccc;}
+.list-view thead th{padding: 5px;vertical-align: middle; text-align: center; background: #777;color:#fff;}
+.list-view tbody td{padding: 5px;vertical-align: top; text-align: left; border-bottom: 1px solid #ccc; border-left:1px solid #ccc;}
 
-#list-view tbody td:last-of-type{border-right: 1px solid #ccc;}
+.list-view tbody td:last-of-type{border-right: 1px solid #ccc;}
 
 
 #disclaimer {
