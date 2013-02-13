@@ -1,7 +1,5 @@
 *.pyc
 *.swo
-*.js
-*.css
 setupy.py
 .DS_Store
 db_repository/

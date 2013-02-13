@@ -1,0 +1,27 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+a#actions{display: inline;height: 20px; width:100%;padding: 10px;color:#fff;background: #369;font-weight: normal;text-decoration: none;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px;}
+#list-view thead td{padding: 5px;vertical-align: middle; text-align: center; background: #777;color:#fff;}
+#list-view thead tr{border:1px solid #777;background: #777;color:#fff;}
+#list-view tbody td{padding: 5px;vertical-align: top; text-align: left; border-bottom: 1px solid #ccc; border-left:1px solid #ccc;}
+
+#list-view tbody td:last-of-type{border-right: 1px solid #ccc;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
