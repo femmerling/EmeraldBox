@@ -295,7 +295,7 @@ def add_model_view_controller_and_template(model_name, model_components):
     template_file.write("\t\t</table>\n")
     template_file.write("\t\tYou have no entries yet\n")
     template_file.write("\t\t\t{% endif %}\n")
-    template_file.write('\t\t\t<b><a id="actions" href="/' + model_name + '/add">Add new entry</a></b>\n')
+    template_file.write('\t\t\t<br/><br/><b><a id="actions" href="/' + model_name + '/add">Add new entry</a></b>\n')
     template_file.write("{% endblock %}\n")
 
     print 'Entries view controller added'
