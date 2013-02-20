@@ -308,7 +308,7 @@ def add_single_views_controller_template(model_name, model_components):
     controller_file = open(controller_path, 'a')
     controller_file.write("def get_single_"+model_name+"("+model_name+"_id):\n")
     controller_file.write("\t"+model_name+" = None\n")
-    controller_file.write("\tsingle_"+model_name+" = "+model_name.title()+".query.filter("+model_name.title()+"_"+model_name+"_id == "+model_name+".id).first()\n")
+    controller_file.write("\tsingle_"+model_name+" = "+model_name.title()+".query.filter("+model_name.title()+"_"+model_name+"_id == "+model_name+"_id).first()\n")
     controller_file.write("\tif single_"+model_name+":\n")
     controller_file.write("\t\t"+model_name+" = single_"+model_name+".dto()\n")
     controller_file.write("\tresult = dict("+model_name+" = "+model_name+")\n")
