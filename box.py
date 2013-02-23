@@ -52,7 +52,6 @@ def db_create():
 
 def db_migrate():
     # This is used for database migration. Newly created database should go through this as well.
-
     migration = SQLALCHEMY_MIGRATE_REPO + '/versions/%03d_migration.py' % (api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO) + 1)
     tmp_module = imp.new_module('old_model')
     old_model = api.create_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
@@ -99,7 +98,7 @@ def add_model(model_name, model_components):
     # Write the class definition.
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.BigInteger, primary_key=True)\n')
+    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.String, primary_key=True)\n')
 
     ## Add the model fields.
     ### First check for the data types and standardize it.
@@ -107,7 +106,7 @@ def add_model(model_name, model_components):
         in_type = component['field_property'][0].lower()
         ### The database field type based on http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic.
         if in_type == 'biginteger' or in_type == 'bigint' or in_type=='int' or in_type=='integer':
-            data_type = 'BigInteger'
+            data_type = 'Integer'
         elif in_type == 'boolean':
             data_type = 'Boolean'
         elif in_type == 'date':
@@ -311,13 +310,13 @@ def add_single_views_controller_template(model_name, model_components):
     controller_file.write("\tsingle_"+model_name+" = "+model_name.title()+".query.filter("+model_name.title()+"."+model_name+"_id == "+model_name+"_id).first()\n")
     controller_file.write("\tif single_"+model_name+":\n")
     controller_file.write("\t\t"+model_name+" = single_"+model_name+".dto()\n")
-    controller_file.write("\tresult = dict("+model_name+" = "+model_name+")\n")
+    controller_file.write("\tresult = "+model_name+"\n")
     controller_file.write("\treturn result\n\n")
 
     controller_file.write("@app.route('/" + model_name + "/<"+model_name+"_id>.json')\n")
     controller_file.write("def get_single_" + model_name + "_json("+model_name+"_id):\n")
     controller_file.write("\t#this is the controller to get single entry in json format\n")
-    controller_file.write("\tresult = json.dumps(get_single_"+model_name+"("+model_name+"_id))\n")
+    controller_file.write("\tresult = json.dumps(dict("+model_name+"=get_single_"+model_name+"("+model_name+"_id)))\n")
     controller_file.write("\treturn result\n\n")
 
     controller_file.write("@app.route('/" + model_name + "/<"+model_name+"_id>')\n")
@@ -447,6 +446,7 @@ def add_model_create_controller(model_name, model_components):
         controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() + "')\n")
 
     controller_file.write("\n\tnew_" + model_name + " = " + model_name.title() + "(\n")
+    controller_file.write("\t\t\t\t\t\t\t\t\t" + model_name + '_id = generate_key(),\n')
 
     for component in model_components:
         if mod_counter != max_mod_index:
