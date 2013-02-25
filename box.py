@@ -98,7 +98,7 @@ def add_model(model_name, model_components):
     # Write the class definition.
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.String, primary_key=True)\n')
+    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.String(50), primary_key=True)\n')
 
     ## Add the model fields.
     ### First check for the data types and standardize it.
@@ -323,7 +323,7 @@ def add_single_views_controller_template(model_name, model_components):
     controller_file.write("def view_single_" + model_name + "("+model_name+"_id):\n")
     controller_file.write("\t#this is the controller to get single entry view\n")
     controller_file.write("\t"+model_name+" = get_single_"+model_name+"("+model_name+"_id)\n")
-    controller_file.write("\treturn render_template("+model_name+"_view.html, "+model_name+" = "+model_name+")\n\n")
+    controller_file.write("\treturn render_template('"+model_name+"_view.html', "+model_name+" = "+model_name+")\n\n")
 
     template_file = open(template_path, 'w')
     template_file.write("{% extends \"base.html\" %}\n")
