@@ -6,7 +6,7 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(BASEDIR, 'db_repository')
 # Add list of python libraries you wish to install on startup in this list
 # Example:
 # additional_packages = ['flask-mail','nose']
-ADDITIONAL_PACKAGES = ['gunicorn']
+ADDITIONAL_PACKAGES = []
 
 # Select the database connectivity that you wish to use.
 # THe current value defaults to sqlite
