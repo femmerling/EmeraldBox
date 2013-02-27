@@ -1,4 +1,4 @@
-#!box/bin/python
+#! box/bin/python
 from app import app
 from config import SERVER_PORT
 

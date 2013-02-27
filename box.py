@@ -7,7 +7,7 @@ import platform
 
 from migrate.versioning import api
 from app import db
-from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
+from config import BASEDIR, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, SERVER_PORT
 
 # This variable will be used to check the valid data types enterred by the user in box.py -n command.
 valid_data_types = [
@@ -35,6 +35,9 @@ def help():
     print ' --add or -a             : Install a new python package.'
     print '\t\t\t   The pattern is python box.py -a [package name]'
     print ' --help or -h            : Display the help file'
+    print ' --serve or -s            : Run The Tornado Web Server'
+    print ' --gserve or -g            : Run The Gunicorn Web Server'
+    print ' --testrun or -t            : Run The Development Server'
     print ''
 
 
@@ -528,6 +531,33 @@ def install_package(package_name):
 
         call([bin_base, 'install', package_name.lower()])
 
+def run_tornado():
+    current_platform = platform.system()
+    bin_base = ''
+    if current_platform == 'Windows':
+        bin_base = 'box\Scripts\python'
+    else:
+        bin_base = 'box/bin/python'
+    call([bin_base,'ignite.py'])
+
+def run_testrun():
+    current_platform = platform.system()
+    bin_base = ''
+    if current_platform == 'Windows':
+        bin_base = 'box\Scripts\python'
+    else:
+        bin_base = 'box/bin/python'
+    call([bin_base,'testrun.py'])
+
+def run_gunicorn():
+    current_platform = platform.system()
+    bin_base = ''
+    if current_platform == 'Windows':
+        bin_base = 'box\Scripts\gunicorn'
+    else:
+        bin_base = 'box/bin/gunicorn'
+    call([bin_base,'-b','127.0.0.1:'+str(SERVER_PORT),'greeny:app'])
+    call([''])
 
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
@@ -564,6 +594,16 @@ if len(sys.argv) > 1:
 
     elif sysinput == '--version' or sysinput == '-v':
         db_version()
+
+    elif sysinput == '--serve' or sysinput == '-s':
+        run_tornado()
+
+    elif sysinput == '--gserve' or sysinput == '-g':
+        run_gunicorn()
+
+    elif sysinput == '--testrun' or sysinput == '-t':
+        run_testrun()
+
 
     elif sysinput == '--downgrade' or sysinput == '-d':
         if len(sys.argv) > 2 and sys.argv[2].isdigit():

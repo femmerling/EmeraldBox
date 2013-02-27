@@ -8,6 +8,7 @@ virtualenv_path = os.path.join(BASEDIR, 'virtualenv.py')
 box_path = os.path.join(BASEDIR, 'box.py')
 ignite_path = os.path.join(BASEDIR, 'ignite.py')
 testrun_path = os.path.join(BASEDIR, 'testrun.py')
+green_path = os.path.join(BASEDIR, 'greeny.py')
 
 def update_environment(file_path):
 	update_file = open(file_path, 'r')
@@ -41,6 +42,7 @@ def tempfix_migrate():
 update_environment(box_path)
 update_environment(ignite_path)
 update_environment(testrun_path)
+update_environment(green_path)
 
 bin_base = 'box/bin/pip'
 if current_platform == 'Windows':
@@ -85,6 +87,11 @@ tempfix_migrate()
 print 'installing Tornado Web Server\n'
 call([bin_base, 'install', 'tornado'])
 print '\nTornado Web Server installed\n'
+
+print 'installing Gunicorn Web Server\n'
+call([bin_base, 'install', 'gunicorn'])
+print '\nGunicorn Web Server installed\n'
+
 print '\nAll basic packages have been installed!\n'
 print '\nYour basic EmeraldBox instalation is ready to use.\n'
 
