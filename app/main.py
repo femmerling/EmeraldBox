@@ -12,7 +12,7 @@ from flask import request
 from flask import abort
 from flask import Response
 import logging
-from helpers import generate_keys
+from helpers import generate_key
 # define global variables here
 
 # home root controller
