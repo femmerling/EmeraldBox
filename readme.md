@@ -86,33 +86,39 @@ add replace remote
 
 # Server and Deployment
 
-As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the famous Tornado Web Server. 
+As all python frameworks, EmeraldBox is dependent on WSGI. Worry not! EmeraldBox comes with the not 1 but 2 WSGI standalone server.
 
-Tornado is integrated for 4 reasons:
-* The integration with Flask is straightforward.
-* It has a good WSGI wrapper.
-* It is highly scalable.
-* It is secure.
+As of version 1.3, EmeraldBox comes with Tornado and Gunicorn. 
 
-You EmeraldBox package is a ready to deploy package and your app is ready to be published since instalation. Run the server on unix/linux using:
+You EmeraldBox package is a ready to deploy package and your app is ready to be published since instalation. 
+
+To run tornado web server on unix/linux:
         
-    ./ignite.py
+    ./box.py -s
 
 Or on windows:
 
-    box\Scripts\python ignite.py
+    box\Scripts\python box.py -s
 
-The app will run at port 5000. You can change the port in the ignite.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
+To run gunicorn web server on unix/linux:
+        
+    ./box.py -g
+
+Or on windows:
+
+    box\Scripts\python box.py -g
+
+The app will run at port 5000. You can change the port in the config.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
 
 We also provide a development server with debugging tools inside. Use it during development time to improve your work.
 
 Run the development server on unix/linux using:
 
-    ./testrun.py
+     ./box.py -t
 
 Or on windows:
 
-    box\Scripts\python testrun.py
+    box\Scripts\python box.py -t
 
 For security concerns we urge you not to use the development server for production usage.
 

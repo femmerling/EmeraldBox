@@ -63,7 +63,7 @@ def db_migrate():
     script = api.make_update_script_for_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, tmp_module.meta, db.metadata)
 
     open(migration, "wt").write(script)
-    a = api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+    api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 
     print 'New migration saved as ' + migration
     print 'Current database version: ' + str(api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)) + '\n'
@@ -469,7 +469,6 @@ def add_model_create_controller(model_name, model_components):
 def add_model_delete_controller(model_name, model_components):
     model_name = model_name.lower()
     controller_path = os.path.join(BASEDIR, 'app/main.py')
-    template_path = os.path.join(BASEDIR, 'app/templates/' + model_name + '_add.html')
 
     controller_file = open(controller_path, 'a')
     controller_file.write("@app.route('/" + model_name + "/delete/<id>')\n")
@@ -557,7 +556,6 @@ def run_gunicorn():
     else:
         bin_base = 'box/bin/gunicorn'
     call([bin_base,'-b','127.0.0.1:'+str(SERVER_PORT),'greeny:app'])
-    call([''])
 
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
