@@ -2,8 +2,9 @@
 import imp
 import sys
 import os.path
-from subprocess import call
+from subprocess import call,Popen,PIPE
 import platform
+import re
 
 from migrate.versioning import api
 from app import db
@@ -36,7 +37,7 @@ def help():
     print '\t\t\t   The pattern is python box.py -a [package name]'
     print ' --help or -h            : Display the help file'
     print ' --serve or -s            : Run The Tornado Web Server'
-    print ' --gserve or -g            : Run The Gunicorn Web Server'
+    print ' --gserve or -g            : Run The Gunicorn Web Server. You can add your own gunicorn options aside from bind address and port'
     print ' --testrun or -t            : Run The Development Server'
     print ''
 
@@ -548,14 +549,45 @@ def run_testrun():
         bin_base = 'box/bin/python'
     call([bin_base,'testrun.py'])
 
-def run_gunicorn():
+def run_gunicorn(arguments = None):
     current_platform = platform.system()
-    bin_base = ''
     if current_platform == 'Windows':
         bin_base = 'box\Scripts\gunicorn'
     else:
         bin_base = 'box/bin/gunicorn'
-    call([bin_base,'-b','127.0.0.1:'+str(SERVER_PORT),'greeny:app'])
+    option_list = [bin_base,'-b','0.0.0.0:'+str(SERVER_PORT),'greeny:app']
+    try:
+        restart_gunicorn()
+        if arguments:
+            for item in arguments:
+                option_list.append(item)
+            call(option_list)
+        else:
+            call([bin_base,'-b','0.0.0.0:'+str(SERVER_PORT),'-w','4','-k','tornado','greeny:app','--daemon'])
+    except:
+        if arguments:
+            for item in arguments:
+                option_list.append(item)
+            call(option_list)
+        else:
+            call([bin_base,'-b','0.0.0.0:'+str(SERVER_PORT),'-w','4','-k','tornado','greeny:app','--daemon'])
+
+def restart_gunicorn():
+    proc = Popen(['ps','aux'], stdout=PIPE)
+    output=proc.communicate()[0].split('\n')
+    processes = output[2:]
+    ids = []
+    for item in processes:
+        if re.search('gunicorn',item):
+            values=[]
+            strings = item.split(" ")
+            for x in strings:
+                if x != "":
+                    values.append(x)
+            ids.append(values[1])
+
+    ids.sort()
+    call(['kill','-9',ids[0]])
 
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
@@ -597,7 +629,11 @@ if len(sys.argv) > 1:
         run_tornado()
 
     elif sysinput == '--gserve' or sysinput == '-g':
-        run_gunicorn()
+        if len(sys.argv) > 2:
+            run_gunicorn(sys.argv[2:])
+        else:
+            run_gunicorn()
+        
 
     elif sysinput == '--testrun' or sysinput == '-t':
         run_testrun()
