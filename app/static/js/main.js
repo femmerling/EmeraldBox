@@ -1,14 +1,29 @@
-$(function () {
-	var currentUrl = $(location).attr('href');
-	//alert (currentUrl);
-	$('#example-default').dataTable();
-	$('#konreg_list').dataTable();
-	$('#parking_list').dataTable();
-	//$('#rpijm_list').dataTable();
-    //$("table").tablecloth({ theme: "stats" });
+$(document).ready(function(){
+	$('#delete-link').click(function(e){
+		e.preventDefault();
+		url = $(e.currentTarget).data('url');
+		callback = $(e.currentTarget).data('callback');
+		$.ajax({
+			url:url,
+			type:'DELETE',
+			success: function(data){
+				location.href = callback;
+			}
+		});
+	});
 
-
-///Verification Functions
-
-
+	$('#submit-put').click(function(e){
+		e.preventDefault();
+		url = $("#url").val();
+		console.log(url)
+		formData = $('#edit-form').serializeArray(); 
+		$.ajax({
+			url:url,
+			type:'PUT',
+			data:$('#edit-form').serializeArray(),
+			success: function(data){
+				location.href = url;
+			}
+		});
+	});
 });

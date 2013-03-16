@@ -10,7 +10,7 @@ a#actions{display: inline;height: 20px; width:100%;padding: 10px;color:#fff;back
 #list-view tbody td{padding: 5px;vertical-align: top; text-align: left; border-bottom: 1px solid #ccc; border-left:1px solid #ccc;}
 
 #list-view tbody td:last-of-type{border-right: 1px solid #ccc;}
-
+#delete-link {cursor: pointer;}
 
 
 

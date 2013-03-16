@@ -22,7 +22,7 @@ However, it will require tools that may speed up development. It that sense, Rai
 
 Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framework.
 
-EmeraldBox comes in a localized environment and includes standard packages that are commonly used in web development. The tool includes framework management tools and is designed to give ease for developers in managing database and migrations.
+EmeraldBox comes in a localized environment and includes standard packages that are commonly used in web development. The tool includes framework management tools and is designed to give ease for developers in managing database and migrations. EmeraldBox is build with REST in mind.
 
 We are standing in the shoulder of giants, leveraging the following technologies and knitting them to work hand-in-hand:
 * Twitter Bootstrap
@@ -108,6 +108,8 @@ Or on windows:
 
     box\Scripts\python box.py -g
 
+For gunicorn, the standard -g option will run gunicorn on the standard port as a daemon utilizing 4 tornado workers. You can add your own gunicorn options after -g but to change the port you have to change the it in the config.py.
+
 The app will run at port 5000. You can change the port in the config.py file to any port you wish for. Just make sure that the port is available and does not conflict with other services.
 
 We also provide a development server with debugging tools inside. Use it during development time to improve your work.
@@ -143,9 +145,9 @@ Or on windows:
 
     box\Scripts\python box.py -n <Model Name> <field name>:<field type>--<field length (optional)>    
 
-This will create an automated data management tool for Create, Read, Update and Delete.
+This will create an automated data management tool for Create, Read, Update and Delete using REST principles.
 You can access the tool at < server_root > / < model name in lowercase >
-
+You can access the json data by adding the ?json=true at the end of the url.
 Your database will then be migrated and EmeraldBox will automatically create the tables in the database. This also creates a controller in your controller file for handling the JSON output of your model.
 Check app/main.py to see the result.
 
