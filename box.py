@@ -270,7 +270,6 @@ def generate_controller(model_name, model_components):
     controller_file.write("\t\t\t\t\t\t\t)\n")
     controller_file.write("\n\t\t\tdb.session.add(new_" + model_name + ")\n")
     controller_file.write("\t\t\tdb.session.commit()\n")
-    controller_file.write("\t\t\tdb.session.commit()\n")
     controller_file.write("\t\t\tif request.values.get('json'):\n")
     controller_file.write("\t\t\t\turl = '/"+model_name+"/json=true'\n")
     controller_file.write("\t\t\telse:\n")
