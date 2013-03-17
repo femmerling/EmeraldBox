@@ -102,14 +102,14 @@ def add_model(model_name, model_components):
     # Write the class definition.
     model_file.write('\n')
     model_file.write('class ' + model_name + '(db.Model):\n')
-    model_file.write('\t' + model_name.lower() + '_id = db.Column(db.Integer, primary_key=True)\n')
+    model_file.write('\tid = db.Column(db.Integer, primary_key=True)\n')
 
     ## Add the model fields.
     ### First check for the data types and standardize it.
     for component in model_components:
         in_type = component['field_property'][0].lower()
         ### The database field type based on http://docs.sqlalchemy.org/en/rel_0_7/core/types.html#types-generic.
-        if in_type == 'biginteger' or in_type == 'bigint' or in_type=='int' or in_type=='integer':
+        if in_type == 'biginteger' or in_type == 'bigint':
             data_type = 'BigInteger'
         elif in_type=='int' or in_type=='integer':
             data_type = 'Integer'
@@ -169,7 +169,7 @@ def add_model(model_name, model_components):
 
     ### Add the json component for all fields.
     mod_counter = 1
-    model_file.write('\t\t\t\t' + model_name.lower() + '_id = self.' + model_name.lower() + '_id,\n')
+    model_file.write('\t\t\t\tid = self.id,\n')
     max_mod_index = len(model_components)
 
     for component in model_components:
@@ -220,14 +220,14 @@ def generate_controller(model_name, model_components):
         controller_file.write(lines)
     controller_file.write('\n\n')
     controller_file.write("########### " + model_name.lower() + " data model controllers area ###########\n\n")
-    controller_file.write("@app.route('/" + model_name + "/',methods=['GET','POST'],defaults={'"+model_name+"_id':None})\n")
-    controller_file.write("@app.route('/" + model_name + "/<"+model_name+"_id>',methods=['GET','PUT','DELETE'])\n")
-    controller_file.write("def " + model_name + "_controller("+model_name+"_id):\n")
+    controller_file.write("@app.route('/" + model_name + "/',methods=['GET','POST'],defaults={'id':None})\n")
+    controller_file.write("@app.route('/" + model_name + "/<id>',methods=['GET','PUT','DELETE'])\n")
+    controller_file.write("def " + model_name + "_controller(id):\n")
     for component in model_components:
         controller_file.write("\t" + component['field_name'].lower() + " = request.values.get('" + component['field_name'].lower() + "')\n")
-    controller_file.write("\n\tif "+model_name+"_id:\n")
+    controller_file.write("\n\tif id:\n")
     controller_file.write("\t\tif request.method == 'GET':\n")
-    controller_file.write("\t\t\t"+model_name+" = "+model_name.title()+".query.filter("+model_name.title()+"."+model_name+"_id == "+model_name+"_id).first()\n")
+    controller_file.write("\t\t\t"+model_name+" = "+model_name.title()+".query.get(id)\n")
     controller_file.write("\t\t\tif "+model_name+":\n")
     controller_file.write("\t\t\t\t"+model_name+" = "+model_name+".dto()\n")
     controller_file.write("\t\t\tif request.values.get('json'):\n")
@@ -235,14 +235,14 @@ def generate_controller(model_name, model_components):
     controller_file.write("\t\t\telse:\n")
     controller_file.write("\t\t\t\treturn render_template('"+model_name+"_view.html', "+model_name+" = "+model_name+")\n")
     controller_file.write("\t\telif request.method == 'PUT':\n")
-    controller_file.write("\t\t\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == " + model_name + "_id).first()\n")
+    controller_file.write("\t\t\t" + model_name + "_item = " + model_name.title() + ".query.get(id)\n")
     for component in model_components:
         controller_file.write("\t\t\t" + model_name + "_item." + component['field_name'].lower() + " = " + component['field_name'].lower() + "\n")
     controller_file.write("\t\t\tdb.session.add(" + model_name + "_item)\n")
     controller_file.write("\t\t\tdb.session.commit()\n")
     controller_file.write("\t\t\treturn 'updated'\n")
     controller_file.write("\t\telif request.method == 'DELETE':\n")
-    controller_file.write("\t\t\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == " + model_name + "_id).first()\n")
+    controller_file.write("\t\t\t" + model_name + "_item = " + model_name.title() + ".query.get(id)\n")
     controller_file.write("\t\t\tdb.session.delete(" + model_name + "_item)\n")
     controller_file.write("\t\t\tdb.session.commit()\n")
     controller_file.write("\t\t\treturn 'deleted'\n")
@@ -304,7 +304,7 @@ def generate_index_template(model_name, model_components):
     template_file.write("\t\t\t<tbody>\n")
     template_file.write("\t\t\t{% for entry in " + model_name + "_entries %}\n")
     template_file.write("\t\t\t\t<tr>\n")
-    template_file.write("\t\t\t\t\t<td><a href=\"/"+model_name+"/{{ entry." + model_name + "_id }}\">{{ entry." + model_name + "_id }}</a></td>\n")
+    template_file.write("\t\t\t\t\t<td><a href=\"/"+model_name+"/{{ entry.id }}\">{{ entry.id }}</a></td>\n")
 
     for component in model_components:
         template_file.write("\t\t\t\t\t<td>{{ entry." + component['field_name'] + " }}</td>\n")
@@ -353,15 +353,15 @@ def generate_edit__template(model_name, model_components):
     controller_file.write("@app.route('/" + model_name + "/edit/<id>')\n")
     controller_file.write("def " + model_name + "_edit_controller(id):\n")
     controller_file.write("\t#this is the controller to edit model entries\n")
-    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.filter(" + model_name.title() + "." + model_name + "_id == id).first()\n")
+    controller_file.write("\t" + model_name + "_item = " + model_name.title() + ".query.get(id)\n")
     controller_file.write("\treturn render_template('" + model_name + "_edit.html', " + model_name + "_item = " + model_name + "_item, title = \"Edit Entries\")\n\n")
 
     template_file = open(template_path, 'w')
     template_file.write("{% extends \"base.html\" %}\n")
     template_file.write("{% block content %}\n")
     template_file.write("\t\t<h1>Edit " + model_name.title() + " Entries.</h1>\n")
-    template_file.write("\t\t<form id=\"edit-form\" name=\"" + model_name + "_add\" method=\"put\" action=\"/" + model_name + "/{{ " + model_name + "_item." + model_name + "_id }}\">\n")
-    template_file.write("\t\t<input type=\"hidden\" id=\"url\" value=\"/"+model_name+"/{{ " + model_name + "_item." + model_name + "_id }}\">\n")
+    template_file.write("\t\t<form id=\"edit-form\" name=\"" + model_name + "_add\" method=\"put\" action=\"/" + model_name + "/{{ " + model_name + "_item.id }}\">\n")
+    template_file.write("\t\t<input type=\"hidden\" id=\"url\" value=\"/"+model_name+"/{{ " + model_name + "_item.id }}\">\n")
     template_file.write("\t\t<table>\n")
 
     for component in model_components:
