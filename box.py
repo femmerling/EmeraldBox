@@ -308,8 +308,8 @@ def generate_index_template(model_name, model_components):
     for component in model_components:
         template_file.write("\t\t\t\t\t<td>{{ entry." + component['field_name'] + " }}</td>\n")
 
-    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.' + model_name + '_id }}">Edit</a></td>\n')
-    template_file.write('\t\t\t\t\t<td><a id="delete-link" data-callback="/' + model_name + '/" data-url="/' + model_name + '/{{ entry.' + model_name + '_id }}">Delete</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a href="/' + model_name + '/edit/{{ entry.id }}">Edit</a></td>\n')
+    template_file.write('\t\t\t\t\t<td><a id="delete-link" data-callback="/' + model_name + '/" data-url="/' + model_name + '/{{ entry.id }}">Delete</a></td>\n')
     template_file.write("\t\t\t\t</tr>\n")
     template_file.write("\t\t\t{% endfor %}\n")
     template_file.write("\t\t\t</tbody>\n")
