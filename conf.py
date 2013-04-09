@@ -8,7 +8,7 @@ master_doc = 'index'
 project = u'EmeraldBox'
 copyright = u'2013, Fauzan Erich Emmerling'
 
-version = '0.1.1'
+version = '1.4.1'
 
 # -- Options for HTML output ---------------------------------------------------
 
