@@ -10,11 +10,6 @@ copyright = u'2013, Fauzan Erich Emmerling'
 
 version = '1.4.1'
 
-# -- Options for HTML output ---------------------------------------------------
-
-extensions = ['sphinxjp.themecore']
-html_theme = 'dotted'
-
 # -- HTML theme options for `dotted` style -------------------------------------
 
 html_theme_options = {
