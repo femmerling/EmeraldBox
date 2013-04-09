@@ -3,13 +3,16 @@ $(document).ready(function(){
 		e.preventDefault();
 		url = $(e.currentTarget).data('url');
 		callback = $(e.currentTarget).data('callback');
-		$.ajax({
-			url:url,
-			type:'DELETE',
-			success: function(data){
-				location.href = callback;
-			}
-		});
+		if (confirm('Are you sure that you want to delete this record?'))
+		{
+			$.ajax({
+				url:url,
+				type:'DELETE',
+				success: function(data){
+					location.href = callback;
+				}
+			});
+		}
 	});
 
 	$('#submit-put').click(function(e){
