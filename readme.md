@@ -5,7 +5,7 @@ The underlying web framework is Flask, a python microframework based on werkzeug
 Flask gives a complete basic package. EmeraldBox gives structure and helper tools to speed up development and app deployment on servers.
 Several basic packages commonly used in developing web applications are included.
 
-Since EmeraldBox is derived from Flask, it uses a lot of Flask patterns and also implements a structure to Flask applications based on Flask's best practice for large applications. However, EmeraldBox did not implement Blueprint.
+Since EmeraldBox is derived from Flask, it uses a lot of Flask patterns and also implements a structure to Flask applications based on Flask's best practice for large applications.
 
 The structure implemented is mostly based on the following links:
 * http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world by Miguel Grinberg
