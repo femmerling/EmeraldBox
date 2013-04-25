@@ -190,7 +190,7 @@ def add_model(model_name, model_components):
     model_file.close()
 
     init_file = open(init_path, 'a')
-    init_file.write("from "+ model_name + " import " + model_name.title()+"\n")
+    init_file.write("from "+ model_name.lower() + " import " + model_name.title()+"\n")
     init_file.close()
 
     print '\n...........\n'
