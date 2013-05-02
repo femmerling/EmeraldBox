@@ -20,7 +20,7 @@ After using several python web frameworks as well as using other languages' fram
 
 However, it will require tools that may speed up development. It that sense, Rails has a very good approach and will be implemented for the helper tools. Integration with 3rd party packages should also comes easily without having the need to interfere with the main OS, hence comes virtualenv. 
 
-Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framework.
+Thus, comes EmeraldBox, an easy-to-use, light-weight, and easy-to-deploy framework. The framework was initially developed to gain speed during hackathon since the author is a hackathon junkie. This framework is the ultimate tool that you can use to develop things fast andready to use.
 
 EmeraldBox comes in a localized environment and includes standard packages that are commonly used in web development. The tool includes framework management tools and is designed to give ease for developers in managing database and migrations. EmeraldBox is build with REST in mind.
 
@@ -195,11 +195,15 @@ for documentation on python see http://www.python.org <br>
 for documentation on Flask see http://flask.pocoo.org <br>
 for documentation on SQLAlchemy see http://www.sqlalchemy.org <br>
 
+# Getting Help
+
+Visit #EmeraldBox on freenode to get help, leave an issue here or email the author directly at erich@emfeld.com
+
 # Contributing
 
 If you found any issues please put them in the issue section.
 
-To contribute, simply place a pull request and email the author at erich@emfeld.com
+To contribute, simply fork the repo, create a branch and place a pull request.
 
 # Ending Note
 
@@ -207,4 +211,4 @@ This framework adds the diversity in python, a language which have more web fram
 Thank you for trying it out and all suggestions are welcome.
 
 Also, special thanks to @pebaryan for extra inputs during the Sanitation Hackathon, which I use to test the framework.
-The framework worked well with some hacks here and there to improve it. The app that we built got 2nd prize.
+Thanks also to @iromli for the discussion and inputs in implementing the blueprint pattern.
