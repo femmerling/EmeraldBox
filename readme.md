@@ -29,11 +29,12 @@ We are standing in the shoulder of giants, leveraging the following technologies
 * Flask
 * SQLAlchemy 
 * Tornado
+* Gunicorn
 * Best of Python Packages
 
 # Installer package
 
-To run EmeraldBox, you need python 2.5 and above. However, Python 3 is not yet supported.
+To run EmeraldBox, you need python 2.5 and above. However, Python 3 is not yet supported. Ideally, use Python 2.7.
 
 EmeraldBox setup will install the following packages for you:
 * Flask
@@ -41,6 +42,7 @@ EmeraldBox setup will install the following packages for you:
 * SQLAlchemy
 * SQLAlchemy-Migrate
 * Tornado Web Server
+* Gunicorn
 
 You can add your desired python package by running:
 
@@ -185,9 +187,7 @@ this controller initiation will also automatically generate a view file in your 
 
 # Other Notes
 
-Currently this is the only documentation available and the project is still developing from day to day. Use carefully!
-
-If you wish to use a rather stable version, use download the package from http://emeraldbox.emfeld.com.
+Documentation is available at http://emeraldbox.emfeld.com
 
 EmeraldBox is tested on unix/linux systems and on Windows 7 and Windows 8.
 
