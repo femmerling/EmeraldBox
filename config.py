@@ -21,4 +21,5 @@ SERVER_PORT = 5000
 #this is to determine the white space used in generating the controllers. You can change it accordinly to your preferance.
 WHITE_SPACE = "\t"
 
+
 # end of file
