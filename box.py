@@ -1,4 +1,21 @@
 #! box/bin/python
+
+"""
+box.py
+
+author: erich@emfeld.com
+========================
+
+This file is the main file that binds all the functions in the
+emerald directory.
+
+The file handles all generator and database operations from the command line.
+
+Running the server is performed by this file.
+
+The file depends on the emerald module.
+
+"""
 import sys
 import os.path
 
