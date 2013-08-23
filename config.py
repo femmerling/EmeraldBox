@@ -18,4 +18,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'db/app.db')  # <
 # This is the default server port settings that will be used by the system
 SERVER_PORT = 5000
 
+#this is to determine the white space used in generating the controllers. You can change it accordinly to your preferance.
+WHITE_SPACE = "\t"
+
 # end of file
