@@ -29,7 +29,7 @@ def tempfix_migrate():
 	if current_platform != 'Windows':
 		buggy_path = os.path.join(BASEDIR, 'box/lib/python2.7/site-packages/migrate/versioning/schema.py')
 	else:
-		buggy_path = os.path.join(BASEDIR, 'box\lib\python2.7\site-packages\migrate\\versioning\schema.py')
+		buggy_path = os.path.join(BASEDIR, 'box\lib\site-packages\migrate\\versioning\schema.py')
 	buggy_file = open(buggy_path,'r')
 	original_lines = buggy_file.readlines()
 	original_lines[9] = "\n"
