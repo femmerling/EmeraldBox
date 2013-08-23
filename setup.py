@@ -19,6 +19,10 @@ The file will install basic packages of EmeraldBox, which are:
 Additional packages that you may require can be defined in config.py file
 using the list of ADDITIONAL_PACKAGES
 
+Note:
+Please remember to add mysql-python to ADDITIONAL_PACKAGES if you wish to
+use MySQL as your database
+
 """
 
 
