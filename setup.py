@@ -1,14 +1,60 @@
-from subprocess import call
-from config import BASEDIR, ADDITIONAL_PACKAGES
+"""
+setup.py
+
+author: erich@emfeld.com
+========================
+
+This file will create the environment in which the EmeraldBox app lives in
+
+To use the file simply run python setup.py
+
+The file will install basic packages of EmeraldBox, which are:
+- Flask
+- SQLAlchemy
+- Flask-SQLAlchemy
+- SQLAlchemy-Migrate
+- Tornado
+- Gunicorn
+
+Additional packages that you may require can be defined in config.py file
+using the list of ADDITIONAL_PACKAGES
+
+"""
+
+
 import os.path
 import platform
 
+from subprocess import call
+
+from config import BASEDIR, ADDITIONAL_PACKAGES
+
 current_platform = platform.system()
+
+#this is the path to the virtualenv file
 virtualenv_path = os.path.join(BASEDIR, 'virtualenv.py')
+
+#this is the path to the box.py file
 box_path = os.path.join(BASEDIR, 'box.py')
+
+#this is the path to the ignite.py file
 ignite_path = os.path.join(BASEDIR, 'ignite.py')
+
+#this is the path to the testrun.py file
 testrun_path = os.path.join(BASEDIR, 'testrun.py')
+
+#this is the path to the greeny.py file
 green_path = os.path.join(BASEDIR, 'greeny.py')
+
+
+"""
+This will auto adjust the python runtime being used by the file.
+
+Todo:
+On windows this has no effect. Need to do more research on making 
+it executable like in UNIX/Linux
+
+"""
 
 def update_environment(file_path):
 	update_file = open(file_path, 'r')
@@ -24,12 +70,21 @@ def update_environment(file_path):
 
 	update_file.close()
 
+
+"""
+This is to fix the migrate versioning bug.
+Will be removed when the bug on the original package is fixed
+
+"""
+
 def tempfix_migrate():
 	print "\nFixing the migrate bug \n"
 	if current_platform != 'Windows':
-		buggy_path = os.path.join(BASEDIR, 'box/lib/python2.7/site-packages/migrate/versioning/schema.py')
+		buggy_path = os.path.join(BASEDIR, 
+					 'box/lib/python2.7/site-packages/migrate/versioning/schema.py')
 	else:
-		buggy_path = os.path.join(BASEDIR, 'box\lib\site-packages\migrate\\versioning\schema.py')
+		buggy_path = os.path.join(BASEDIR, 
+					 'box\lib\site-packages\migrate\\versioning\schema.py')
 	buggy_file = open(buggy_path,'r')
 	original_lines = buggy_file.readlines()
 	original_lines[9] = "\n"
@@ -38,6 +93,8 @@ def tempfix_migrate():
 	for lines in original_lines:
 		update_file.write(lines)
 	update_file.close()
+
+
 
 update_environment(box_path)
 update_environment(ignite_path)
