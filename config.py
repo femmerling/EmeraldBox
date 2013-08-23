@@ -1,3 +1,17 @@
+"""
+config.py
+
+author: erich@emfeld.com
+========================
+
+This file acts as the configuration holder for the environment.
+If you want to define a global configuration please define it here.
+
+Naming convention:
+- Use capital letters.
+- If needed, use underscores ('_') as separators between words 
+"""
+
 import os
 # Do not change these values!
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -20,6 +34,13 @@ SERVER_PORT = 5000
 
 #this is to determine the white space used in generating the controllers. You can change it accordinly to your preferance.
 WHITE_SPACE = "\t"
+
+# This variable will be used to check the valid data types enterred by the user in box.py -n command.
+VALID_DATA_TYPES = [
+    'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
+    'numeric', 'float', 'biginteger', 'smallinteger', 'smallint', 'string', 'bigint','int','integer',
+    'text', 'unicode', 'unicodetext', 'binary', 'largebinary', 'blob'
+]
 
 
 # end of file

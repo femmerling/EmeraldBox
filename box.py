@@ -2,7 +2,7 @@
 import sys
 import os.path
 
-from config import SQLALCHEMY_MIGRATE_REPO
+from config import SQLALCHEMY_MIGRATE_REPO, VALID_DATA_TYPES
 
 from emerald import help, db_create, db_migrate 
 from emerald import db_upgrade, db_downgrade, db_version
@@ -10,13 +10,6 @@ from emerald import install_package
 from emerald import add_controller, add_model
 from emerald import run_tornado, run_gunicorn, run_testrun
 
-
-# This variable will be used to check the valid data types enterred by the user in box.py -n command.
-valid_data_types = [
-    'boolean', 'date', 'time', 'datetime', 'enum', 'interval', 'pickletype', 'schematype',
-    'numeric', 'float', 'biginteger', 'smallinteger', 'smallint', 'string', 'bigint','int','integer',
-    'text', 'unicode', 'unicodetext', 'binary', 'largebinary', 'blob'
-]
 
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
@@ -88,11 +81,15 @@ if len(sys.argv) > 1:
                     if detail_components[0].lower() == 'string':
                         if len(detail_components) < 2:
                             detail_components.append('50')
-                    insert_components = {
-                        'field_name': field_name,
-                        'field_property': detail_components
-                    }
-                    model_components.append(insert_components)
+                    elif detail_components[0].lower() in VALID_DATA_TYPES:
+                        insert_components = {
+                            'field_name': field_name,
+                            'field_property': detail_components
+                        }
+                        model_components.append(insert_components)
+                    else:
+                        print '\n' + detail_components[0].lower() + ' is not a valid data type.'
+                        sys.exit()
             else:
                 print '\nNot enough parameters are provided. Model requires field definitions. See box.py -h for info\n'
                 sys.exit()
