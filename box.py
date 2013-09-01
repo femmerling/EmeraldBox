@@ -27,7 +27,6 @@ from emerald import install_package
 from emerald import add_controller, add_model
 from emerald import run_tornado, run_gunicorn, run_testrun
 
-
 if len(sys.argv) > 1:
     sysinput = sys.argv[1].lower()
 
@@ -88,9 +87,8 @@ if len(sys.argv) > 1:
         if len(sys.argv) > 2:
             model_name = sys.argv[2].title()
             raw_component = sys.argv[3:]
+            model_components = []
             if raw_component:
-                model_components = []
-
                 for component in raw_component:
                     raw_field = component.split(':')
                     field_name = raw_field[0]
@@ -98,19 +96,23 @@ if len(sys.argv) > 1:
                     if detail_components[0].lower() == 'string':
                         if len(detail_components) < 2:
                             detail_components.append('50')
+                            insert_components = {
+                                'field_name': field_name,
+                                'field_property': detail_components
+                            }
                     elif detail_components[0].lower() in VALID_DATA_TYPES:
                         insert_components = {
                             'field_name': field_name,
                             'field_property': detail_components
                         }
-                        model_components.append(insert_components)
                     else:
                         print '\n' + detail_components[0].lower() + ' is not a valid data type.'
                         sys.exit()
+                    model_components.append(insert_components)
+                add_model(model_name, model_components)
             else:
                 print '\nNot enough parameters are provided. Model requires field definitions. See box.py -h for info\n'
                 sys.exit()
-            add_model(model_name, model_components)
         else:
             print '\nNot enough parameters are provided. See box.py -h for info\n'
 
