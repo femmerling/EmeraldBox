@@ -63,8 +63,6 @@ def generate_controller(model_name, model_components):
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "entries=None\n")
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "if " + model_name + "_list:\n")
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "entries = [" + model_name + ".dto() for " + model_name + " in " + model_name + "_list]\n")
-    controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "else:\n")
-    
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "if request.values.get('json'):\n")
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "return json.dumps(dict("+model_name+"=entries))\n")
     controller_file.write(WHITE_SPACE + WHITE_SPACE + WHITE_SPACE + "return render_template('" + model_name + ".html'," + model_name + "_entries = entries, title = \"" + model_name.title() + " List\")\n")
