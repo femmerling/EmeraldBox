@@ -63,10 +63,9 @@ it executable like in UNIX/Linux
 def update_environment(file_path):
 	update_file = open(file_path, 'r')
 	original_lines = update_file.readlines()
+	original_lines[0] = '#! box/bin/python\n'
 	if current_platform == 'Windows':
 		original_lines[0] = '#! box\Scripts\python\n'
-	else:
-		original_lines[0] = '#! box/bin/python\n'
 	update_file.close()
 	update_file = open(file_path, 'w')
 	for lines in original_lines:
@@ -83,10 +82,9 @@ Will be removed when the bug on the original package is fixed
 
 def tempfix_migrate():
 	print "\nFixing the migrate bug \n"
-	if current_platform != 'Windows':
-		buggy_path = os.path.join(BASEDIR, 
+	buggy_path = os.path.join(BASEDIR, 
 					 'box/lib/python2.7/site-packages/migrate/versioning/schema.py')
-	else:
+	if current_platform == 'Windows':
 		buggy_path = os.path.join(BASEDIR, 
 					 'box\lib\site-packages\migrate\\versioning\schema.py')
 	buggy_file = open(buggy_path,'r')

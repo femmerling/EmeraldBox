@@ -5,30 +5,18 @@ from subprocess import call, Popen, PIPE
 
 from config import SERVER_PORT
 
+current_platform = platform.system()
+bin_base = 'box/bin/python'
+if current_platform == 'Windows':
+    bin_base = 'box\Scripts\python'
+
 def run_tornado():
-    current_platform = platform.system()
-    bin_base = ''
-    if current_platform == 'Windows':
-        bin_base = 'box\Scripts\python'
-    else:
-        bin_base = 'box/bin/python'
     call([bin_base,'ignite.py'])
 
 def run_testrun():
-    current_platform = platform.system()
-    bin_base = ''
-    if current_platform == 'Windows':
-        bin_base = 'box\Scripts\python'
-    else:
-        bin_base = 'box/bin/python'
     call([bin_base,'testrun.py'])
 
 def run_gunicorn(arguments = None):
-    current_platform = platform.system()
-    if current_platform == 'Windows':
-        bin_base = 'box\Scripts\gunicorn'
-    else:
-        bin_base = 'box/bin/gunicorn'
     option_list = [bin_base,'-b','0.0.0.0:'+str(SERVER_PORT),'greeny:app']
     try:
         restart_gunicorn()
