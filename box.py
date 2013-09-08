@@ -94,7 +94,7 @@ if len(sys.argv) > 1:
                     field_name = raw_field[0]
                     detail_components = raw_field[1].split('--')
                     if detail_components[0].lower() == 'string':
-                        if len(detail_components) < 2:
+                        if len(detail_components) <= 2:
                             detail_components.append('50')
                             insert_components = {
                                 'field_name': field_name,
