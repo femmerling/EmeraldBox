@@ -89,7 +89,7 @@ def tempfix_migrate():
 					 'box\lib\site-packages\migrate\\versioning\schema.py')
 	buggy_file = open(buggy_path,'r')
 	original_lines = buggy_file.readlines()
-	original_lines[9] = "\n"
+	original_lines[9] = "from sqlalchemy import exc as sa_exceptions\n"
 	buggy_file.close()
 	update_file = open(buggy_path,'w')
 	for lines in original_lines:
