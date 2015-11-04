@@ -133,7 +133,7 @@ call([bin_base, 'install', 'flask-sqlalchemy'])
 print '\nFlask-SQLAlchemy installed\n'
 
 print 'installing SQLAlchemy-Migrate\n'
-call([bin_base, 'install', 'sqlalchemy-migrate'])
+call([bin_base, 'install', 'sqlalchemy-migrate==0.9.7'])
 print '\nSQLAlchemy-Migrate installed\n'
 print '##################################################'
 print '# IMPORTANT                                      #'
